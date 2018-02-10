@@ -1,4 +1,4 @@
-package softwaregroup.com.underthekotlintree
+package com.softwaregroup.underthekotlintree
 
 import org.junit.Test
 
