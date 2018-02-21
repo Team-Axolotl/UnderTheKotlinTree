@@ -1,7 +1,7 @@
 package com.softwaregroup.underthekotlintree.net
 
 
-import com.softwaregroup.underthekotlintree.model.Login
+import com.softwaregroup.underthekotlintree.model.LoginData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -13,7 +13,7 @@ const val REQUEST_IDENTITY_CHECK = "identity.check"
 interface Ut5Service {
 
     @POST("/login")
-    fun login(@Body body: JsonRpcRequest): Call<JsonRpcResponse<Login>>
+    fun login(@Body body: JsonRpcRequest): Call<JsonRpcResponse<LoginData>>
 
 }
 

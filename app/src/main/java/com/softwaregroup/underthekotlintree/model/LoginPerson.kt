@@ -6,7 +6,7 @@ data class LoginPerson(
         val lastName: String?
 )
 
-data class Login(
+data class LoginData(
         val person: LoginPerson,
         val language: Language?,
         val jwt: Jwt,
