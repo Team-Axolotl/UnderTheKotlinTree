@@ -1,17 +1,19 @@
 package com.softwaregroup.underthekotlintree.net
 
-import android.util.Log
+
 import com.softwaregroup.underthekotlintree.model.Login
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
+// REQUEST METHODS
+const val REQUEST_IDENTITY_CHECK = "identity.check"
+// END REQUEST METHODS
+
 interface Ut5Service {
 
-
     @POST("/login")
-    fun login(@Body body: RequestBody): Call<JsonRpcResponse<Login>>
+    fun login(@Body body: JsonRpcRequest): Call<JsonRpcResponse<Login>>
 
 }
 
@@ -29,20 +31,10 @@ data class JsonRpcError(
         val type: String
 )
 
-class JsonRpcRequest (val id: Int = 1, val method: String, val params: MutableMap<String, String>){
 
-    override fun toString(): String {
-        val result = """
-            "id":"$id",
-            "jsonrpc":"2.0",
-            "method":"$method",
-            "params":{
-                $params
-            }"
-            """
-
-        Log.wtf("TAAAG" , result)
-        return result
-    }
-
-}
+data class JsonRpcRequest(
+        val id: Int = 1,
+        val jsonrpc: String = "2.0",
+        val method: String,
+        val params: Map<String, Any>
+)
