@@ -1,5 +1,12 @@
 package com.softwaregroup.underthekotlintree.model
 
+/**
+ * Logged-in user's data and related data-classes.
+ *
+ * Models are mostly defined by the JSONs of data sent from the backend,
+ * because they need to match during deserialization.
+ */
+
 data class LoginPerson(
         val actorId: Long,
         val firstName: String?,

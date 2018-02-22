@@ -1,8 +1,12 @@
 package com.softwaregroup.underthekotlintree.net
 
 
+import com.softwaregroup.underthekotlintree.JacksonObjMapper
 import com.softwaregroup.underthekotlintree.model.LoginData
+import com.softwaregroup.underthekotlintree.storage.baseUrl
 import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -16,6 +20,13 @@ interface Ut5Service {
     fun login(@Body body: JsonRpcRequest): Call<JsonRpcResponse<LoginData>>
 
 }
+
+val UT5_SERVICE: Ut5Service = Retrofit.Builder()
+        .client(UT5_CLIENT)
+        .baseUrl(baseUrl)
+        .addConverterFactory(JacksonConverterFactory.create(JacksonObjMapper))
+        .build()
+        .create(Ut5Service::class.java)
 
 data class JsonRpcResponse<out T>(
         val id: Int,
