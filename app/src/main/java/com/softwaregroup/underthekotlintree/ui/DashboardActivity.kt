@@ -1,4 +1,4 @@
-package com.softwaregroup.underthekotlintree.util
+package com.softwaregroup.underthekotlintree.ui
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

@@ -9,7 +9,6 @@ import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.model.LoginData
 import com.softwaregroup.underthekotlintree.net.*
 import com.softwaregroup.underthekotlintree.storage.*
-import com.softwaregroup.underthekotlintree.util.DashboardActivity
 import com.softwaregroup.underthekotlintree.util.toast
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.HttpUrl

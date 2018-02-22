@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".util.DashboardActivity"/>
+        <activity android:name=".ui.DashboardActivity"/>
 
     </application>
 
