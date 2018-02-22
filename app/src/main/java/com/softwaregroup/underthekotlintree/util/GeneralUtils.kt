@@ -1,6 +1,8 @@
 package com.softwaregroup.underthekotlintree.util
 
 import android.app.Activity
+import android.content.Intent
+import android.support.annotation.StringRes
 import android.widget.Toast
 
 /**
@@ -14,3 +16,10 @@ enum class ToastDuration(val value: Int) {
 
 /** Show a toast with passed message and length ([Toast.LENGTH_LONG] by default) */
 fun Activity.toast(message: String, length: ToastDuration = ToastDuration.LONG) = Toast.makeText(this, message, length.value).show()
+fun Activity.toast(@StringRes messageResId: Int, length: ToastDuration = ToastDuration.LONG){
+    Toast.makeText(this, getString(messageResId), length.value).show()
+}
+
+fun Activity.startActivity(clazz: Class<out Activity>) {
+    this.startActivity(Intent(this, clazz))
+}

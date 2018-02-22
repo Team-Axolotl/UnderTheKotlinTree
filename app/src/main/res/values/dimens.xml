@@ -38,8 +38,6 @@
     <dimen name="spacing_huge_mid">28dp</dimen>
     <dimen name="spacing_huge_high">36dp</dimen>
 
-    <dimen name="standard_corner_radius">5dp</dimen>
-    <dimen name="dialog_corner_radius">2dp</dimen>
-
+    <dimen name="standard_corner_radius">2dp</dimen>
 
 </resources>

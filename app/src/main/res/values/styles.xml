@@ -17,4 +17,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MaterialButtonRed">
+        <item name="android:background">@drawable/selector_red</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:elevation">@dimen/elevation_standard</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

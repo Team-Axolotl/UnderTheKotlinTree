@@ -2,9 +2,10 @@ package com.softwaregroup.underthekotlintree.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.util.Log
+import android.view.View.*
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.model.LoginData
 import com.softwaregroup.underthekotlintree.net.*
@@ -18,21 +19,28 @@ import java.util.*
  * First Activity that the User sees when opening the app.
  * Handles logging in via authentication with credentials to a server as set in [SettingsActivity]
  */
-class LoginActivity : Activity() {
+class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // todo - move url definition to settings screen
-        baseUrl = HttpUrl.Builder().scheme("http").host("192.168.128.65").port(8004).build()
+//        val start0 = System.currentTimeMillis()
+//        UT5_SERVICE
+//        toast("0: " + (System.currentTimeMillis() - start0))
+//
+//        val start1 = System.currentTimeMillis()
+//        UT5_SERVICE.login(getLoginRequest())
+//        toast("1: " + (System.currentTimeMillis() - start1))
 
+        loginSettingsButton.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
 
         loginButton.setOnClickListener {
+            //todo - validate inputs. Checkout crash when input empty.
             beginLoginLoad()
 
             // Create an AsyncTask for executing login request.
-            HttpAsyncTask<JsonRpcResponse<LoginData>> { response ->
+            val task = HttpAsyncTask<JsonRpcResponse<LoginData>> { response ->
                 // on-request-done callback \/
                 endLoginLoad()
 
@@ -44,9 +52,18 @@ class LoginActivity : Activity() {
                     xsrf = loginData.xsrf
 
                     startActivity(Intent(this, DashboardActivity::class.java))
+                    finish() // finish activity to remove it from the Task and disallow back-navigation to it once logged out (unless via startActivity())
                 }
 
-            }.execute(UT5_SERVICE.login(getLoginRequest()))
+            }
+
+            //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.2 SECONDS! ffs....
+            object: AsyncTask<Void?, Void?, Void?>(){
+                override fun doInBackground(vararg params: Void?): Void? {
+                    task.execute(UT5_SERVICE.login(getLoginRequest()))
+                    return null
+                }
+            }.execute()
         }
 
     }
@@ -68,11 +85,16 @@ class LoginActivity : Activity() {
     private fun beginLoginLoad() {
         loginProgress.visibility = VISIBLE
         loginButton.isEnabled = false
+
+        loginName.isEnabled = false
+        loginPassword.isEnabled = false
     }
 
     private fun endLoginLoad() {
-        loginProgress.visibility = GONE
+        loginProgress.visibility = INVISIBLE
         loginButton.isEnabled = true
+        loginName.isEnabled = true
+        loginPassword.isEnabled = true
     }
 
     /** Generate a [JsonRpcRequest] for the [Ut5Service.login] */

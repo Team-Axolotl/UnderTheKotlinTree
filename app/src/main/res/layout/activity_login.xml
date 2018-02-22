@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,20 +6,21 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/spacing_mid_high"
-    tools:context="com.softwaregroup.underthekotlintree.ui.LoginActivity">
+    tools:context=".ui.LoginActivity">
 
     <ImageButton
+        android:id="@+id/loginSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_margin="@dimen/spacing_mid_mid"
+        android:adjustViewBounds="true"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_settings" />
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_huge_mid"
+        android:layout_height="@dimen/toolbar_height_mid"
         android:adjustViewBounds="true"
         android:src="@drawable/admin_logo" />
 
@@ -29,12 +29,13 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+        android:layout_margin="@dimen/spacing_mid_mid"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_huge_high"
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -70,11 +71,10 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/loginButton"
+            style="@style/MaterialButtonRed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="login"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/red_microcred" />
+            android:layout_height="@dimen/toolbar_height_tiny"
+            android:text="@string/action_next" />
 
     </LinearLayout>
 
