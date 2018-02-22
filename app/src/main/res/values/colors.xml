@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="gray_background">#F2F2F2</color>
+    <color name="dark_gray">#AFB3B4</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="red_microcred">#CC0066</color>
+    <color name="red_microcred_pressed">#8f0048</color>
+    <color name="text_dark">#202020</color>
 </resources>
