@@ -21,8 +21,8 @@ android {
 }
 
 ext.supportLibVersion = "26.1.0"
-ext.jacksonLibVersion = "2.8.2"
 ext.retrofitLibversion = "2.3.0"
+ext.jacksonLibVersion = "2.8.2"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -39,6 +39,8 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jacksonLibVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonLibVersion"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonLibVersion"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonLibVersion"
+
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
