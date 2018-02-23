@@ -3,6 +3,7 @@ package com.softwaregroup.underthekotlintree.net
 
 import com.softwaregroup.underthekotlintree.JacksonObjMapper
 import com.softwaregroup.underthekotlintree.model.LoginData
+import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.storage.baseUrl
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -12,6 +13,7 @@ import retrofit2.http.POST
 
 // REQUEST METHODS
 const val REQUEST_IDENTITY_CHECK = "identity.check"
+const val REQUEST_USER_USER_FETCH = "user.user.fetch"
 // END REQUEST METHODS
 
 interface Ut5Service {
@@ -21,6 +23,9 @@ interface Ut5Service {
 
     @POST("/rpc")
     fun silentLogin(@Body body: JsonRpcRequest): Call<JsonRpcResponse<LoginData>>
+
+    @POST("/rpc")
+    fun userFetch(@Body body: JsonRpcRequest): Call<JsonRpcResponse<UserFetchData>>
 }
 
 var UT5_SERVICE: Ut5Service = createUt5Service()

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.Snackbar
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.widget.Toast
 import com.softwaregroup.underthekotlintree.R
@@ -36,6 +37,13 @@ abstract class BaseActivity : Activity() {
     private fun exit() {
         clearMemStorage()
         finish()
+    }
+
+    /** Show error ui elements */
+    protected fun showErrorMessage(message: String) {
+        // todo - impl proper
+        val snek: Snackbar = Snackbar.make(window.decorView, message, Snackbar.LENGTH_INDEFINITE)
+        snek.setAction(android.R.string.ok) { snek.dismiss() }.show()
     }
 
 }

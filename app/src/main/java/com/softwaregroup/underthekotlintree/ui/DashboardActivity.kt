@@ -1,44 +1,82 @@
 package com.softwaregroup.underthekotlintree.ui
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.softwaregroup.underthekotlintree.R
+import com.softwaregroup.underthekotlintree.model.UserFetchData
+import com.softwaregroup.underthekotlintree.net.*
+import com.softwaregroup.underthekotlintree.util.toast
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.app_bar_dashboard.*
+import kotlinx.android.synthetic.main.view_toolbar_standard.*
 
 class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-//        setSupportActionBar(toolbar)
         toolbar.title = title
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        showLoading()
+        HttpAsyncTask<JsonRpcResponse<UserFetchData>> { response ->
+            hideLoading()
+            val userData: UserFetchData? = processResponse(response)
+            Log.wtf("TAAAG_D", "user count = ${userData!!.user.size}")
+        }.execute(UT5_SERVICE.userFetch(getUserFetchRequest()))
 
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        )
+
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+    private fun hideLoading() = toast("Loaded!")
+    private fun showLoading() = toast("Loading...")
+
+    /** Unwrap the [UserFetchData] from withing the [response]. Show and error message and return null if the request was not successful*/
+    private fun processResponse(response: HttpCallResponse<JsonRpcResponse<UserFetchData>>): UserFetchData? {
+        return if (response.isSuccess && response.result!!.error == null) {
+            response.result.result
         } else {
-            super.onBackPressed()
+            showErrorMessage(when (response.isSuccess) {
+                true -> response.result!!.error!!.message
+                false -> getString(response.errorCode!!.messageStringId)
+            })
+            null
         }
+    }
+
+    /** Generate a [JsonRpcRequest] for the [Ut5Service.userFetch] */
+    private fun getUserFetchRequest(): JsonRpcRequest {
+        return JsonRpcRequest(
+                method = REQUEST_USER_USER_FETCH,
+                params = mapOf(
+                        "pageSize" to 100,
+                        "pageNumber" to 1,
+                        "breadcrumbs" to "[]",
+                        "customSearch" to mapOf("field" to "userName", "value" to "")
+                ))
+    }
+
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START)
+        else
+            super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -51,25 +89,16 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
+            R.id.nav_users -> {
 
             }
             R.id.nav_share -> {
@@ -80,7 +109,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        drawer_layout.closeDrawer(GravityCompat.START)
+        drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 }

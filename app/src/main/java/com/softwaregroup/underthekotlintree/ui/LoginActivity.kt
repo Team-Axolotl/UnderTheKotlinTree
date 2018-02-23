@@ -2,7 +2,6 @@ package com.softwaregroup.underthekotlintree.ui
 
 import android.os.AsyncTask
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
 import android.view.View.*
@@ -81,13 +80,6 @@ class LoginActivity : BaseActivity(), OnClickListener {
                     ))
             true -> JsonRpcRequest(method = REQUEST_IDENTITY_CHECK, params = mapOf("channel" to "mobile"))
         }
-    }
-
-    /** Show error ui elements */
-    private fun showErrorMessage(message: String) {
-        // todo - impl proper
-        val snek: Snackbar = Snackbar.make(window.decorView, message, Snackbar.LENGTH_INDEFINITE)
-        snek.setAction(android.R.string.ok) { snek.dismiss() }.show()
     }
 
     private fun validateLoginInput(): Boolean {

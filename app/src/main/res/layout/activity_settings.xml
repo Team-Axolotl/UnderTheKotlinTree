@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.SettingsActivity">
 
-    <include layout="@layout/view_toolbar_standard" />
+    <include layout="@layout/view_toolbar_standard"/>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

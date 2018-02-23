@@ -26,6 +26,7 @@
     <string name="error_invalid_input">Invalid input!</string>
     <string name="error_message_bad_request">Bad request. Ooops :$</string>
     <string name="message_double_press_to_exit">Press \'back\' again to exit.</string>
+    <string name="label_users">Users</string>
     <!-- END ERROR MESSAGES -->
 
 </resources>
