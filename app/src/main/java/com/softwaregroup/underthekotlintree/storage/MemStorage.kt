@@ -7,14 +7,22 @@ import com.softwaregroup.underthekotlintree.model.Xsrf
 import com.softwaregroup.underthekotlintree.net.UT5_SERVICE
 import okhttp3.HttpUrl
 
-const val SHARED_PREFS_SETTINGS = "shPrefs_for_settings"
 const val DEFAULT_LANGUAGE = "en"
 
 /** Values that need to be stored in-memory during runtime, and should be globally accessible he here.*/
 
 var loggedInPerson: LoginPerson? = null
-var jwt: Jwt? = null
-var xsrf: Xsrf? = null
+var jwt: Jwt? = KApplication.accessibleInstance!!.getSavedJwtOrNull()
+    set(value) {
+        field = value
+        KApplication.accessibleInstance!!.saveJwt()
+    }
+
+var xsrf: Xsrf? = KApplication.accessibleInstance!!.getSavedXsrfOrNull()
+    set(value) {
+        field = value
+        KApplication.accessibleInstance!!.saveXsrf()
+    }
 
 fun getCookie(): String = "ut5-cookie=${jwt?.value}; xsrf-token=${xsrf?.uuId}"
 
@@ -30,7 +38,7 @@ var baseUrl: HttpUrl = HttpUrl.Builder().scheme("https").host("google.com").buil
 
 
 fun clearMemStorage() {
-    jwt = null
-    xsrf = null
+//    jwt = null
+//    xsrf = null
     loggedInPerson = null
 }

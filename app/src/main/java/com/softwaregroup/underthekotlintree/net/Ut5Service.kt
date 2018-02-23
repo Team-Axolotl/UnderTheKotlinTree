@@ -19,6 +19,8 @@ interface Ut5Service {
     @POST("/login")
     fun login(@Body body: JsonRpcRequest): Call<JsonRpcResponse<LoginData>>
 
+    @POST("/rpc")
+    fun silentLogin(@Body body: JsonRpcRequest): Call<JsonRpcResponse<LoginData>>
 }
 
 var UT5_SERVICE: Ut5Service = createUt5Service()

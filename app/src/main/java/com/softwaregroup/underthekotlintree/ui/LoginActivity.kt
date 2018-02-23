@@ -3,6 +3,7 @@ package com.softwaregroup.underthekotlintree.ui
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.util.Log
 import android.view.View
 import android.view.View.*
 import com.softwaregroup.underthekotlintree.R
@@ -32,6 +33,11 @@ class LoginActivity : BaseActivity(), OnClickListener {
 
         loginButton.setOnClickListener(this)
         loginSettingsButton.setOnClickListener(this)
+
+        if (jwt != null && xsrf != null) {
+            beginLogin(isSilentLogin = true)
+            Log.wtf("TAAAG", "${jwt!!.value} : ${xsrf!!.uuId}")
+        }
     }
 
     /** Unwrap the [LoginData] from withing the [response]. Show and error message and return null if the request was not successful*/
@@ -51,7 +57,6 @@ class LoginActivity : BaseActivity(), OnClickListener {
     private fun showLoginLoad() {
         loginProgress.visibility = VISIBLE
         loginButton.isEnabled = false
-
         loginNameInput.isEnabled = false
         loginPasswordInput.isEnabled = false
     }
@@ -64,16 +69,18 @@ class LoginActivity : BaseActivity(), OnClickListener {
     }
 
     /** Generate a [JsonRpcRequest] for the [Ut5Service.login] */
-    private fun getLoginRequest(): JsonRpcRequest {
-        return JsonRpcRequest(
-                method = REQUEST_IDENTITY_CHECK,
-                params = mapOf(
-                        "username" to loginNameInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
-                        "password" to loginPasswordInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
-                        "timezone" to TimeZone.getDefault().getDisplayName(true, TimeZone.SHORT),
-                        "channel" to "mobile"
-                )
-        )
+    private fun getLoginRequest(isForSilentLogin: Boolean = false): JsonRpcRequest {
+        return when (isForSilentLogin) {
+            false -> JsonRpcRequest(
+                    method = REQUEST_IDENTITY_CHECK,
+                    params = mapOf(
+                            "username" to loginNameInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
+                            "password" to loginPasswordInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
+                            "timezone" to TimeZone.getDefault().getDisplayName(true, TimeZone.SHORT),
+                            "channel" to "mobile"
+                    ))
+            true -> JsonRpcRequest(method = REQUEST_IDENTITY_CHECK, params = mapOf("channel" to "mobile"))
+        }
     }
 
     /** Show error ui elements */
@@ -101,10 +108,10 @@ class LoginActivity : BaseActivity(), OnClickListener {
         }
     }
 
-    private fun beginLogin() {
+    private fun beginLogin(isSilentLogin: Boolean = false) {
         showLoginLoad()
 
-        //        val start0 = System.currentTimeMillis()
+//        val start0 = System.currentTimeMillis()
 //        UT5_SERVICE
 //        toast("0: " + (System.currentTimeMillis() - start0))
 //
@@ -134,7 +141,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
         //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.2 SECONDS! ffs....
         object : AsyncTask<Void?, Void?, Void?>() {
             override fun doInBackground(vararg params: Void?): Void? {
-                task.execute(UT5_SERVICE.login(getLoginRequest()))
+                task.execute(if (isSilentLogin) UT5_SERVICE.silentLogin(getLoginRequest(true)) else UT5_SERVICE.login(getLoginRequest(false)))
                 return null
             }
         }.execute()
