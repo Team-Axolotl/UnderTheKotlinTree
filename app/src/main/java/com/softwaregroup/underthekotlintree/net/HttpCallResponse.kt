@@ -12,8 +12,11 @@ import retrofit2.Call
  * The result is either a success and a <[T]>,
  * or an error with [ErrorCode] and [Throwable] cause.
  *
- * A successful [HttpCallResponse]'s [result] might still be an error of its own type (e.g. invalidCredentials).
- * The [isSuccess] flag *only denotes that the call connected successfully*, not that the result is positive.
+ * A successful [HttpCallResponse]'s [result] might still contain an error of its own type (e.g. invalidCredentials).
+ * The [isSuccess] flag *only denotes that the call connected successfully with usable data*, not that the result is positive.
+ *
+ * <b>NB!:</b> errors like " 400 - Bad request" are considered failed,
+ * because although the request made it to the server, it was malformed and no UT message could be retrieved!
  */
 data class HttpCallResponse<T> private constructor(
         val startingCall: Call<T>,
@@ -28,7 +31,7 @@ data class HttpCallResponse<T> private constructor(
         }
 
         fun <T> error(errorCode: ErrorCode, exception: Throwable, call: Call<T>): HttpCallResponse<T> {
-            return HttpCallResponse(startingCall = call, exception = exception, isSuccess = false, errorCode = errorCode)
+            return HttpCallResponse( errorCode = errorCode, exception = exception, startingCall = call, isSuccess = false)
         }
     }
 }

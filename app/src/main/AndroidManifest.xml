@@ -28,9 +28,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.SettingsActivity"
+            android:noHistory="true" />
 
-        <activity android:name=".ui.DashboardActivity" />
-        <activity android:name=".ui.SettingsActivity" />
+
+        <activity android:name=".ui.DashboardActivity"/>
 
     </application>
 

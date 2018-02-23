@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit
 /** Representation of a http error mapped to a strings.xml value for human-readable message. */
 enum class ErrorCode(val code: Int, val messageStringId: Int) {
     SOCKET_TIMEOUT(408, R.string.error_message_connection_time_out),
-    CONNECT_FAIL(418, R.string.error_message_no_connection)
+    CONNECT_FAIL(418, R.string.error_message_no_connection),
+    BAD_REQUEST(400, R.string.error_message_bad_request)
 }
 
 /** Client configuration for the [UT5_SERVICE] */

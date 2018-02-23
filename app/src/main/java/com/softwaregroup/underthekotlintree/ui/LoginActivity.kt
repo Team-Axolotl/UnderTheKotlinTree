@@ -1,71 +1,37 @@
 package com.softwaregroup.underthekotlintree.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
+import android.support.design.widget.Snackbar
+import android.view.View
 import android.view.View.*
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.model.LoginData
 import com.softwaregroup.underthekotlintree.net.*
 import com.softwaregroup.underthekotlintree.storage.*
-import com.softwaregroup.underthekotlintree.util.toast
+import com.softwaregroup.underthekotlintree.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
-import okhttp3.HttpUrl
 import java.util.*
 
 /**
  * First Activity that the User sees when opening the app.
  * Handles logging in via authentication with credentials to a server as set in [SettingsActivity]
  */
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivity(), OnClickListener {
+
+    override fun onClick(v: View?) {
+        when (v) {
+            loginButton -> if (validateLoginInput()) beginLogin()
+            loginSettingsButton -> startActivity(SettingsActivity::class.java)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-//        val start0 = System.currentTimeMillis()
-//        UT5_SERVICE
-//        toast("0: " + (System.currentTimeMillis() - start0))
-//
-//        val start1 = System.currentTimeMillis()
-//        UT5_SERVICE.login(getLoginRequest())
-//        toast("1: " + (System.currentTimeMillis() - start1))
-
-        loginSettingsButton.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
-
-        loginButton.setOnClickListener {
-            //todo - validate inputs. Checkout crash when input empty.
-            beginLoginLoad()
-
-            // Create an AsyncTask for executing login request.
-            val task = HttpAsyncTask<JsonRpcResponse<LoginData>> { response ->
-                // on-request-done callback \/
-                endLoginLoad()
-
-                val loginData: LoginData? = processLoginResponse(response)
-                if (loginData != null) { // if the [processLoginResponse] method found valid LoginData -> save results and proceed to [DashboardActivity]
-                    loggedInPerson = loginData.person
-                    language = loginData.language?.name ?: DEFAULT_LANGUAGE
-                    jwt = loginData.jwt
-                    xsrf = loginData.xsrf
-
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    finish() // finish activity to remove it from the Task and disallow back-navigation to it once logged out (unless via startActivity())
-                }
-
-            }
-
-            //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.2 SECONDS! ffs....
-            object: AsyncTask<Void?, Void?, Void?>(){
-                override fun doInBackground(vararg params: Void?): Void? {
-                    task.execute(UT5_SERVICE.login(getLoginRequest()))
-                    return null
-                }
-            }.execute()
-        }
-
+        loginButton.setOnClickListener(this)
+        loginSettingsButton.setOnClickListener(this)
     }
 
     /** Unwrap the [LoginData] from withing the [response]. Show and error message and return null if the request was not successful*/
@@ -82,19 +48,19 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun beginLoginLoad() {
+    private fun showLoginLoad() {
         loginProgress.visibility = VISIBLE
         loginButton.isEnabled = false
 
-        loginName.isEnabled = false
-        loginPassword.isEnabled = false
+        loginNameInput.isEnabled = false
+        loginPasswordInput.isEnabled = false
     }
 
-    private fun endLoginLoad() {
+    private fun hideLoginLoad() {
         loginProgress.visibility = INVISIBLE
         loginButton.isEnabled = true
-        loginName.isEnabled = true
-        loginPassword.isEnabled = true
+        loginNameInput.isEnabled = true
+        loginPasswordInput.isEnabled = true
     }
 
     /** Generate a [JsonRpcRequest] for the [Ut5Service.login] */
@@ -102,8 +68,8 @@ class LoginActivity : BaseActivity() {
         return JsonRpcRequest(
                 method = REQUEST_IDENTITY_CHECK,
                 params = mapOf(
-                        "username" to loginName.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
-                        "password" to loginPassword.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
+                        "username" to loginNameInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
+                        "password" to loginPasswordInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
                         "timezone" to TimeZone.getDefault().getDisplayName(true, TimeZone.SHORT),
                         "channel" to "mobile"
                 )
@@ -113,7 +79,64 @@ class LoginActivity : BaseActivity() {
     /** Show error ui elements */
     private fun showErrorMessage(message: String) {
         // todo - impl proper
-        toast(message)
+        val snek: Snackbar = Snackbar.make(window.decorView, message, Snackbar.LENGTH_INDEFINITE)
+        snek.setAction(android.R.string.ok) { snek.dismiss() }.show()
     }
 
+    private fun validateLoginInput(): Boolean {
+        return when {
+            loginNameInput.text.isBlank() -> {
+                loginNameInput.error = getString(R.string.error_invalid_input)
+                loginNameInput.requestFocus()
+                false
+            }
+
+            loginPasswordInput.text.isBlank() -> {
+                loginPasswordInput.error = getString(R.string.error_invalid_input)
+                loginPasswordInput.requestFocus()
+                false
+            }
+
+            else -> true
+        }
+    }
+
+    private fun beginLogin() {
+        showLoginLoad()
+
+        //        val start0 = System.currentTimeMillis()
+//        UT5_SERVICE
+//        toast("0: " + (System.currentTimeMillis() - start0))
+//
+//        val start1 = System.currentTimeMillis()
+//        UT5_SERVICE.login(getLoginRequest())
+//        toast("1: " + (System.currentTimeMillis() - start1))
+
+
+        // Create an AsyncTask for executing login request.
+        val task = HttpAsyncTask<JsonRpcResponse<LoginData>> { response ->
+            // on-request-done callback \/
+            hideLoginLoad()
+
+            val loginData: LoginData? = processLoginResponse(response)
+            if (loginData != null) { // if the [processLoginResponse] method found valid LoginData -> save results and proceed to [DashboardActivity]
+                loggedInPerson = loginData.person
+                language = loginData.language?.name ?: DEFAULT_LANGUAGE
+                jwt = loginData.jwt
+                xsrf = loginData.xsrf
+
+                startActivity(DashboardActivity::class.java)
+                finish() // finish activity to remove it from the Task and disallow back-navigation to it once logged out (unless via startActivity())
+            }
+
+        }
+
+        //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.2 SECONDS! ffs....
+        object : AsyncTask<Void?, Void?, Void?>() {
+            override fun doInBackground(vararg params: Void?): Void? {
+                task.execute(UT5_SERVICE.login(getLoginRequest()))
+                return null
+            }
+        }.execute()
+    }
 }

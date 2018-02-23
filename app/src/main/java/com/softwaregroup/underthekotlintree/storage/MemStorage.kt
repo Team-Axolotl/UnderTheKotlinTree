@@ -4,6 +4,7 @@ import com.softwaregroup.underthekotlintree.KApplication
 import com.softwaregroup.underthekotlintree.model.Jwt
 import com.softwaregroup.underthekotlintree.model.LoginPerson
 import com.softwaregroup.underthekotlintree.model.Xsrf
+import com.softwaregroup.underthekotlintree.net.UT5_SERVICE
 import okhttp3.HttpUrl
 
 const val SHARED_PREFS_SETTINGS = "shPrefs_for_settings"
@@ -15,7 +16,7 @@ var loggedInPerson: LoginPerson? = null
 var jwt: Jwt? = null
 var xsrf: Xsrf? = null
 
-fun getCookie(): String = "ut5-cookie=${jwt?.value}; ${xsrf?.uuId}"
+fun getCookie(): String = "ut5-cookie=${jwt?.value}; xsrf-token=${xsrf?.uuId}"
 
 
 // Settings / user preferences specific values V
@@ -23,5 +24,13 @@ var language: String = DEFAULT_LANGUAGE // default to English
 var baseUrl: HttpUrl = HttpUrl.Builder().scheme("https").host("google.com").build()
     set(value){
         field = value
+        UT5_SERVICE
         KApplication.accessibleInstance?.saveBaseUrl()
     }
+
+
+fun clearMemStorage() {
+    jwt = null
+    xsrf = null
+    loggedInPerson = null
+}

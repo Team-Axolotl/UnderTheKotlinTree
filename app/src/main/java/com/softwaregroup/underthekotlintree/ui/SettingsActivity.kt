@@ -2,6 +2,8 @@ package com.softwaregroup.underthekotlintree.ui
 
 import android.os.Bundle
 import com.softwaregroup.underthekotlintree.R
+import com.softwaregroup.underthekotlintree.net.UT5_SERVICE
+import com.softwaregroup.underthekotlintree.net.createUt5Service
 import com.softwaregroup.underthekotlintree.storage.baseUrl
 import com.softwaregroup.underthekotlintree.util.startActivity
 import com.softwaregroup.underthekotlintree.util.toast
@@ -32,9 +34,11 @@ class SettingsActivity : BaseActivity() {
                         .port(settingsPortInput.text.toString().toInt())
                         .build()
 
+                UT5_SERVICE = createUt5Service() // recreate to update url!
 
                 toast(R.string.message_configuration_saved)
                 startActivity(LoginActivity::class.java)
+                finish()
             }
         }
     }
@@ -55,7 +59,6 @@ class SettingsActivity : BaseActivity() {
         }}
 
     override fun onBackPressed() {
-        super.onBackPressed()
         // start the LoginActivity a-new because it has the no-history flag and doesn't retain after exit.
         startActivity(LoginActivity::class.java)
     }

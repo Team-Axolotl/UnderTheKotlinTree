@@ -21,12 +21,14 @@ interface Ut5Service {
 
 }
 
-val UT5_SERVICE: Ut5Service = Retrofit.Builder()
-        .client(UT5_CLIENT)
-        .baseUrl(baseUrl)
-        .addConverterFactory(JacksonConverterFactory.create(JacksonObjMapper))
-        .build()
-        .create(Ut5Service::class.java)
+var UT5_SERVICE: Ut5Service = createUt5Service()
+
+fun createUt5Service(): Ut5Service = Retrofit.Builder()
+            .client(UT5_CLIENT)
+            .baseUrl(baseUrl)
+            .addConverterFactory(JacksonConverterFactory.create(JacksonObjMapper))
+            .build()
+            .create(Ut5Service::class.java)
 
 data class JsonRpcResponse<out T>(
         val id: Int,

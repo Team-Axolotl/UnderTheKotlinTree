@@ -12,13 +12,20 @@
     <!-- START ERROR MESSAGES -->
     <string name="error_message_connection_time_out">Connection time out</string>
     <string name="error_message_no_connection">Could not establish a connection to the server</string>
+
+    <string name="label_name">User name</string>
+    <string name="label_password">Password</string>
+
     <string name="label_host">Host</string>
     <string name="label_port">Port</string>
     <string name="label_use_https">Use HTTPS</string>
+
     <string name="action_login">Login</string>
     <string name="action_next">Next</string>
     <string name="message_configuration_saved">Configuration saved!</string>
     <string name="error_invalid_input">Invalid input!</string>
+    <string name="error_message_bad_request">Bad request. Ooops :$</string>
+    <string name="message_double_press_to_exit">Press \'back\' again to exit.</string>
     <!-- END ERROR MESSAGES -->
 
 </resources>
