@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_red_outline"
+    android:clickable="true"
+    android:layout_marginBottom="@dimen/spacing_mid_low"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="@dimen/spacing_mid_low">
+
+
+    <ImageView
+        android:id="@+id/userStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/spacing_huge_high"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_locked"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_mid_low"
+        android:textColor="@color/red_microcred"
+        android:textSize="@dimen/text_font_size_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userStatus"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="User names go here" />
+
+    <TextView
+        android:id="@+id/userBranch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userStatus"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        tools:text="Branch name | Roles" />
+
+</android.support.constraint.ConstraintLayout>

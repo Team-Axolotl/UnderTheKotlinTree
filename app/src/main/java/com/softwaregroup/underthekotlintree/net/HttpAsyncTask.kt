@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import retrofit2.Call
 import retrofit2.Response
 import java.net.ConnectException
+import java.net.NoRouteToHostException
 import java.net.SocketTimeoutException
 
 class HttpAsyncTask<T>(onResult: (HttpCallResponse<T>) -> Unit) : AsyncTask<Call<T>, Unit, HttpCallResponse<T>>() {
@@ -28,6 +29,8 @@ class HttpAsyncTask<T>(onResult: (HttpCallResponse<T>) -> Unit) : AsyncTask<Call
             if (response!!.code() == ErrorCode.BAD_REQUEST.code)
                 HttpCallResponse.error(ErrorCode.BAD_REQUEST, e3, call)
             else throw e3
+        } catch (e4: NoRouteToHostException){
+            HttpCallResponse.error(ErrorCode.NO_ROUT, e4, call)
         }
     }
 

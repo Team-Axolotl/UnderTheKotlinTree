@@ -9,6 +9,7 @@ import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.model.LoginData
 import com.softwaregroup.underthekotlintree.net.*
 import com.softwaregroup.underthekotlintree.storage.*
+import com.softwaregroup.underthekotlintree.ui.dashboard.DashboardActivity
 import com.softwaregroup.underthekotlintree.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -103,15 +104,6 @@ class LoginActivity : BaseActivity(), OnClickListener {
     private fun beginLogin(isSilentLogin: Boolean = false) {
         showLoginLoad()
 
-//        val start0 = System.currentTimeMillis()
-//        UT5_SERVICE
-//        toast("0: " + (System.currentTimeMillis() - start0))
-//
-//        val start1 = System.currentTimeMillis()
-//        UT5_SERVICE.login(getLoginRequest())
-//        toast("1: " + (System.currentTimeMillis() - start1))
-
-
         // Create an AsyncTask for executing login request.
         val task = HttpAsyncTask<JsonRpcResponse<LoginData>> { response ->
             // on-request-done callback \/
@@ -130,7 +122,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
 
         }
 
-        //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.2 SECONDS! ffs....
+        //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.4 SECONDS! ffs....
         object : AsyncTask<Void?, Void?, Void?>() {
             override fun doInBackground(vararg params: Void?): Void? {
                 task.execute(if (isSilentLogin) UT5_SERVICE.silentLogin(getLoginRequest(true)) else UT5_SERVICE.login(getLoginRequest(false)))

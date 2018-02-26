@@ -12,4 +12,5 @@
     <color name="red_microcred">#CC0066</color>
     <color name="red_microcred_pressed">#8f0048</color>
     <color name="text_dark">#202020</color>
+    <color name="red_microcred_translucent" >#28c51162</color>
 </resources>

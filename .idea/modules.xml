@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UnderTheKotlinTree.iml" filepath="$PROJECT_DIR$/UnderTheKotlinTree.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\OtherProjects\android\UnderTheKotlinTree\app\app.iml" filepath="D:\OtherProjects\android\UnderTheKotlinTree\app\app.iml" />
     </modules>
   </component>
 </project>
