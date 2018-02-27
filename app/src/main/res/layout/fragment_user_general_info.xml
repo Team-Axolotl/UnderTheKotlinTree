@@ -1,91 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:paddingTop="@dimen/spacing_mid_mid">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/userInfoAvatar"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:src="@mipmap/ic_user_avatar" />
 
-        <EditText
-            android:id="@+id/userInfoFirstName"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_red_outline"
-            android:hint="@string/label_first_name"
-            android:padding="@dimen/spacing_mid_low" />
+            android:gravity="center">
 
+            <ImageView
+                android:id="@+id/userInfoAvatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="@dimen/spacing_huge_high"
+                android:background="@drawable/outline_dark_gray"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_user_avatar"
+                app:layout_constraintEnd_toStartOf="@+id/userInfoBioText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
 
-        <EditText
-            android:id="@+id/userInfoLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_red_outline"
-            android:hint="@string/label_last_name"
-            android:padding="@dimen/spacing_mid_low" />
+            <TextView
+                android:id="@+id/userInfoBioText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/spacing_mid_mid"
+                android:drawableStart="@drawable/ic_bio"
+                app:layout_constraintBottom_toBottomOf="@id/userInfoAvatar"
+                app:layout_constraintDimensionRatio="W, 2:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/userInfoAvatar"
+                app:layout_constraintTop_toTopOf="@id/userInfoAvatar"
+                tools:text="@tools:sample/lorem/random" />
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/label_gender_male" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/label_gender_female" />
-        </RadioGroup>
+        </android.support.constraint.ConstraintLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height_tiny"
-            android:background="@drawable/outline_dark_gray">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_mid_mid"
+            android:background="@color/white">
 
-            <Spinner
-                android:id="@+id/userInfoLanguageDropdown"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:paddingTop="1.5dp"
+                android:background="@drawable/outline_dark_gray">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideLabelEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.35" />
+
+                <TextView
+                    android:id="@+id/userInfoGeneralInfoTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_mid_low"
+                    android:text="@string/label_general_info"
+                    android:textColor="@color/text_dark"
+                    android:textSize="@dimen/text_font_size_big"
+                    android:layout_margin="1.5dp"
+                    android:background="@color/gray_background_light"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/dark_gray"
+                    app:layout_constraintTop_toBottomOf="@id/userInfoGeneralInfoTitle" />
+
+                <TextView
+                    android:id="@+id/userInfoFirstNameLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid_low"
+                    android:text="@string/label_first_name"
+                    app:layout_constraintBottom_toBottomOf="@id/userInfoFirstName"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideLabelEnd"
+                    app:layout_constraintTop_toTopOf="@id/userInfoFirstName" />
+
+                <EditText
+                    android:id="@+id/userInfoFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_mid_mid"
+                    android:background="@drawable/selector_red_outline"
+                    android:padding="@dimen/spacing_mid_low"
+                    app:layout_constraintBottom_toTopOf="@+id/userInfoLastName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideLabelEnd"
+                    app:layout_constraintTop_toBottomOf="@+id/userInfoGeneralInfoTitle" />
+
+
+                <TextView
+                    android:id="@+id/userInfoLastNameLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid_low"
+                    android:text="@string/label_last_name"
+                    app:layout_constraintBottom_toBottomOf="@id/userInfoLastName"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideLabelEnd"
+                    app:layout_constraintTop_toTopOf="@id/userInfoLastName" />
+
+                <EditText
+                    android:id="@+id/userInfoLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_mid_low"
+                    android:background="@drawable/selector_red_outline"
+                    android:padding="@dimen/spacing_mid_low"
+                    app:layout_constraintBottom_toTopOf="@+id/userInfoGenderRadio"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideLabelEnd"
+                    app:layout_constraintTop_toBottomOf="@+id/userInfoFirstName" />
+
+
+                <TextView
+                    android:id="@+id/userInfoGenderLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid_low"
+                    android:text="@string/label_gender"
+                    app:layout_constraintBottom_toBottomOf="@id/userInfoGenderRadio"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideLabelEnd"
+                    app:layout_constraintTop_toTopOf="@id/userInfoGenderRadio" />
+
+                <RadioGroup
+                    android:id="@+id/userInfoGenderRadio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_mid_mid"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideLabelEnd"
+                    app:layout_constraintTop_toBottomOf="@+id/userInfoLastName">
+
+                    <RadioButton
+                        android:id="@+id/userInfoGenderMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/label_gender_male" />
+
+                    <RadioButton
+                        android:id="@+id/userInfoGenderFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/label_gender_female"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/radioButton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/radioButton" />
+                </RadioGroup>
+
+
+                <TextView
+                    android:id="@+id/userInfoLanguageLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid_low"
+                    android:text="@string/label_language"
+                    app:layout_constraintBottom_toBottomOf="@id/frameLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideLabelEnd"
+                    app:layout_constraintTop_toTopOf="@id/frameLayout" />
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/spacing_huge_high"
+                    android:layout_margin="@dimen/spacing_mid_mid"
+                    android:background="@drawable/outline_dark_gray"
+                    app:layout_constraintBottom_toTopOf="@+id/userInfoPhoneModel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideLabelEnd"
+                    app:layout_constraintTop_toBottomOf="@+id/userInfoGenderRadio">
+
+                    <Spinner
+                        android:id="@+id/userInfoLanguageDropdown"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/userInfoPhoneModelLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid_low"
+                    android:text="@string/label_phone_model"
+                    app:layout_constraintBottom_toBottomOf="@id/userInfoPhoneModel"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideLabelEnd"
+                    app:layout_constraintTop_toTopOf="@id/userInfoPhoneModel" />
+
+                <EditText
+                    android:id="@+id/userInfoPhoneModel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_mid_mid"
+                    android:background="@drawable/selector_red_outline"
+                    android:hint="@string/label_phone_model"
+                    android:padding="@dimen/spacing_mid_low"
+                    app:layout_constraintBottom_toTopOf="@+id/userInfoComputerModel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideLabelEnd"
+                    app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+                    tools:ignore="TextFields" />
+
+                <TextView
+                    android:id="@+id/userInfoComputerModelLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_mid_low"
+                    android:text="@string/label_computer_model"
+                    app:layout_constraintBottom_toBottomOf="@id/userInfoComputerModel"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/guideLabelEnd"
+                    app:layout_constraintTop_toTopOf="@id/userInfoComputerModel" />
+
+                <EditText
+                    android:id="@+id/userInfoComputerModel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_mid_mid"
+                    android:background="@drawable/selector_red_outline"
+                    android:hint="@string/label_computer_model"
+                    android:padding="@dimen/spacing_mid_low"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideLabelEnd"
+                    app:layout_constraintTop_toBottomOf="@+id/userInfoPhoneModel" />
+
+            </android.support.constraint.ConstraintLayout>
         </FrameLayout>
-
-        <EditText
-            android:id="@+id/userInfoPhoneModel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_red_outline"
-            android:hint="@string/label_phone_model"
-            android:padding="@dimen/spacing_mid_low"
-            tools:ignore="TextFields" />
-
-        <EditText
-            android:id="@+id/userInfoComputerModel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/selector_red_outline"
-            android:hint="@string/label_computer_model"
-            android:padding="@dimen/spacing_mid_low" />
-
-        <RadioGroup
-            android:id="@+id/userInfoBusinessUnits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </RadioGroup>
-
     </LinearLayout>
 
 </ScrollView>

@@ -33,5 +33,18 @@ class UserGeneralInfoFragment : Fragment() {
 
         userInfoComputerModel.setText(user.person.computerModel)
         userInfoPhoneModel.setText(user.person.phoneModel)
+
+        if(user.person.gender != null){
+            if (user.person.gender.equals("male", true))
+                userInfoGenderRadio.check(R.id.userInfoGenderMale)
+            else if (user.person.gender.equals("female", true))
+                userInfoGenderRadio.check(R.id.userInfoGenderFemale)
+        }
+
+        // todo - not right data to display
+        if (user.person.bioId != null)
+            userInfoBioText.text = user.person.bioId.toString()
+        else
+            userInfoBioText.text = "No bio data for user"
     }
 }
