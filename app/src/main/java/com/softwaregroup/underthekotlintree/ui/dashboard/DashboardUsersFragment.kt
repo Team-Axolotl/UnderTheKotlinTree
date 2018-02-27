@@ -1,10 +1,8 @@
 package com.softwaregroup.underthekotlintree.ui.dashboard
 
-
-import android.app.Fragment
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.annotation.DrawableRes
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -18,6 +16,8 @@ import com.softwaregroup.underthekotlintree.model.User
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
+import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserGeneralInfoFragment
+import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
 import com.softwaregroup.underthekotlintree.util.showErrorMessage
 import com.softwaregroup.underthekotlintree.util.toast
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
@@ -40,10 +40,12 @@ class DashboardUsersFragment : Fragment() {
             hideLoadingIndicator()
             val userData: UserFetchData? = processResponse(response)
 
-            if(userData?.user != null)
+            if (userData?.user != null){
                 usersRecyclerView.adapter = UserAdapter(activity.layoutInflater, userData.user)
-            else
+                // todo - update data, instead of re-creating adapter in case more than one call
+            } else{
                 activity.toast("Fuck my life with a cattle prod on fire")
+            }
         }.execute(UT5_SERVICE.userFetch(getUserFetchRequest()))
     }
 
@@ -80,42 +82,59 @@ class DashboardUsersFragment : Fragment() {
                         "customSearch" to mapOf("field" to "userName", "value" to "")
                 ))
     }
-}
 
-class UserAdapter(
-        private val inflater: LayoutInflater,
-        private val users: MutableList<User>
-) : RecyclerView.Adapter<UserAdapter.UserHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
-            UserHolder(inflater.inflate(R.layout.row_user, parent, false))
-
-    override fun getItemCount() = users.size
-
-    override fun onBindViewHolder(holder: UserHolder?, position: Int) {
-        Log.wtf("TAAAG", "SAdasdadsd   " + position)
-        holder!!.bind(users[position])
+    private fun openUserFragment(boundUser: User) {
+        activity.supportFragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, UserInfoRootFragment.newInstance(boundUser)).commit()
     }
 
-    inner class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val statusIcon: ImageView = itemView.findViewById(R.id.userStatus)
-        private val nameView: TextView = itemView.findViewById(R.id.userName)
-        private val branchView: TextView = itemView.findViewById(R.id.userBranch)
 
-        fun bind(user: User) {
-            statusIcon.setImageDrawable(ContextCompat.getDrawable(statusIcon.context, getUserStatusIcon(user)))
-            nameView.text = user.userName
-            branchView.text = "${user.branches} | ${user.roles}"
+    inner class UserAdapter(
+            private val inflater: LayoutInflater,
+            private val users: MutableList<User>
+    ) : RecyclerView.Adapter<UserAdapter.UserHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
+                UserHolder(inflater.inflate(R.layout.row_user, parent, false))
+
+        override fun getItemCount() = users.size
+
+        override fun onBindViewHolder(holder: UserHolder?, position: Int) {
+            Log.wtf("TAAAG", "SAdasdadsd   " + position)
+            holder!!.bind(users[position])
         }
 
-        @DrawableRes
-        private fun getUserStatusIcon(user: User): Int {
-            return if (user.failed != null) {
-                R.drawable.ic_locked
-            } else {
-                // todo - handle possible nullity. Maybe add an 'unknown/?' status icon?
-                UserStatusMap.statusIdIconRes[user.statusId]!!
+
+        inner class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+            init { itemView.setOnClickListener(this) }
+
+            private val statusIcon: ImageView = itemView.findViewById(R.id.userStatus)
+            private val nameView: TextView = itemView.findViewById(R.id.userName)
+            private val branchView: TextView = itemView.findViewById(R.id.userBranch)
+            private var boundUser: User? = null
+
+            fun bind(user: User) {
+                this.statusIcon.setImageDrawable(ContextCompat.getDrawable(statusIcon.context, getUserStatusIcon(user)))
+                this.nameView.text = user.userName
+                this.branchView.text = "${user.branches} | ${user.roles}"
+                this.boundUser = user
+            }
+
+            @DrawableRes
+            private fun getUserStatusIcon(user: User): Int {
+                return if (user.failed != null) {
+                    R.drawable.ic_locked
+                } else {
+                    // todo - handle possible nullity. Maybe add an 'unknown/?' status icon?
+                    UserStatusMap.statusIdIconRes[user.statusId]!!
+                }
+            }
+
+            override fun onClick(v: View?) {
+                if (boundUser != null)
+                    this@DashboardUsersFragment.openUserFragment(boundUser!!)
             }
         }
     }
 }
+
+

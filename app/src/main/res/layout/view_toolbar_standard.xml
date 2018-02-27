@@ -5,7 +5,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height_mid"
-    app:title="@string/app_name"
     app:titleTextColor="@color/white"
     android:background="@color/colorPrimary"
     android:elevation="@dimen/elevation_standard"

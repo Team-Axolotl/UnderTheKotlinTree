@@ -61,7 +61,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_users -> {
-                fragmentManager
+                supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.dashboardFragmentContainer, DashboardUsersFragment.newInstance(), "ASDASDSd")
                         .commit()

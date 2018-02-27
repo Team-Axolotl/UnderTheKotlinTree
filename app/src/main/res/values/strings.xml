@@ -28,6 +28,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="error_message_no_rout_to_host" tools:keep="@string/error_message_no_rout_to_host">Couldn\'t find rout to host</string>
     <string name="action_logout">Log out</string>
+    <string name="label_first_name">First name</string>
+    <string name="label_last_name">Last name</string>
+    <string name="label_general_info">General Info</string>
+    <string name="label_gender">Gender</string>
+    <string name="label_gender_male">Male</string>
+    <string name="label_gender_female">Female</string>
+    <string name="label_language">Language</string>
+    <string name="label_phone_model">Phone model</string>
+    <string name="label_computer_model">Computer model</string>
     <!-- END ERROR MESSAGES -->
 
 </resources>

@@ -22,4 +22,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="FormTableRow">
+        <item name="android:background">@drawable/underline_dark_gray</item>
+        <item name="android:paddingBottom">@dimen/spacing_mid_mid</item>
+        <item name="android:paddingTop">@dimen/spacing_mid_mid</item>
+    </style>
+
 </resources>
