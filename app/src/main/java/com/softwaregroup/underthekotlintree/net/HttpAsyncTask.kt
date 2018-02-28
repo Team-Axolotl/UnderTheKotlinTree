@@ -24,7 +24,7 @@ class HttpAsyncTask<T>(private inline val onResult: (HttpCallResponse<T>) -> Uni
         return try {
             response = call.execute()
             HttpCallResponse.success(response.body()!!, call)
-        } catch (ex: RuntimeException){
+        } catch (ex: Throwable){
             val errorCode = when(ex){
                 is RpcException -> ErrorCode.RPC_FAIL
                 is ConnectException -> ErrorCode.CONNECT_FAIL
