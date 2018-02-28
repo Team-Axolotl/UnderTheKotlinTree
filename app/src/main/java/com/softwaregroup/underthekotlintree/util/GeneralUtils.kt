@@ -33,7 +33,7 @@ fun Activity.showErrorMessage(message: String) {
     snek.setAction(android.R.string.ok) { snek.dismiss() }.show()
 }
 
-fun Activity.showHttpErrorMessage(response: HttpCallResponse<LoginData>) {
+fun Activity.showHttpErrorMessage(response: HttpCallResponse<out Any>) {
     if( response.exception is RpcException )
         showErrorMessage(response.exception.message!!)
     else

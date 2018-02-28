@@ -16,10 +16,9 @@ import com.softwaregroup.underthekotlintree.model.User
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
-import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserGeneralInfoFragment
+import com.softwaregroup.underthekotlintree.storage.*
 import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
-import com.softwaregroup.underthekotlintree.util.showErrorMessage
-import com.softwaregroup.underthekotlintree.util.toast
+import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
 
 class DashboardUsersFragment : Fragment() {
@@ -38,13 +37,12 @@ class DashboardUsersFragment : Fragment() {
         showLoadingIndicator()
         HttpAsyncTask<UserFetchData> { response ->
             hideLoadingIndicator()
-            val userData: UserFetchData? = response.result
 
-            if (userData?.user != null){
-                usersRecyclerView.adapter = UserAdapter(activity.layoutInflater, userData.user)
-                // todo - update data, instead of re-creating adapter in case more than one call
-            } else{
-                activity.toast("Fuck my life with a cattle prod on fire")
+            if (response.isSuccess) {
+                response.result!! // assert result is non-null
+                usersRecyclerView.adapter = UserAdapter(activity.layoutInflater, response.result.user)
+            } else {
+                activity.showHttpErrorMessage(response)
             }
         }.execute(UT5_SERVICE.userFetch(getUserFetchRequest()))
     }
@@ -92,7 +90,9 @@ class DashboardUsersFragment : Fragment() {
 
 
         inner class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-            init { itemView.setOnClickListener(this) }
+            init {
+                itemView.setOnClickListener(this)
+            }
 
             private val statusIcon: ImageView = itemView.findViewById(R.id.userStatus)
             private val nameView: TextView = itemView.findViewById(R.id.userName)

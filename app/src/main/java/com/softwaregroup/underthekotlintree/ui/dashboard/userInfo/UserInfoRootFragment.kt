@@ -12,6 +12,7 @@ import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserGetData
 import com.softwaregroup.underthekotlintree.net.*
 import com.softwaregroup.underthekotlintree.util.showErrorMessage
+import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import com.softwaregroup.underthekotlintree.util.toast
 import kotlinx.android.synthetic.main.fragment_user_info_root.*
 
@@ -35,12 +36,12 @@ class UserInfoRootFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         HttpAsyncTask<UserGetData> { response ->
-            val userData: UserGetData? = response.result
 
-            if (userData?.user != null){
+            if (response.isSuccess){
+                response.result!!
                 userInfoPager.adapter = object : FragmentPagerAdapter(fragmentManager) {
                     val pages = listOf<Fragment>(
-                            UserGeneralInfoFragment.newInstance(userData)
+                            UserGeneralInfoFragment.newInstance(response.result)
                     )
 
                     override fun getItem(position: Int): Fragment = pages[position]
@@ -48,7 +49,7 @@ class UserInfoRootFragment : Fragment() {
                     override fun getPageTitle(position: Int): String = "TODO: $position"
                 }
             } else{
-                activity.toast("Fuck my life with a cattle prod on fire")
+                activity.showHttpErrorMessage(response)
             }
         }.execute(UT5_SERVICE.userGet(getUserGetRequest()))
     }
@@ -61,18 +62,4 @@ class UserInfoRootFragment : Fragment() {
                 params = mapOf("actorId" to "${user.actorId}")
         )
     }
-
-//    /** Unwrap the [UserFetchData] from withing the [response]. Show and error message and return null if the request was not successful*/
-//    private fun processResponse(response: HttpCallResponse<JsonRpcResponse<UserGetData>>): UserGetData? {
-//        return if (response.isSuccess && response.result!!.error == null) {
-//            response.result.result
-//        } else {
-//            activity.showErrorMessage(when (response.isSuccess) {
-//                true -> response.result!!.error!!.message
-//                false -> getString(response.errorCode!!.messageStringId)
-//            })
-//            null
-//        }
-//    }
-
 }
