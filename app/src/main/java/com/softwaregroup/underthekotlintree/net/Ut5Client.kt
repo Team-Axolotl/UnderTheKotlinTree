@@ -14,7 +14,8 @@ enum class ErrorCode(val code: Int, val messageStringId: Int) {
     SOCKET_TIMEOUT(408, R.string.error_message_connection_time_out),
     CONNECT_FAIL(418, R.string.error_message_no_connection),
     BAD_REQUEST(400, R.string.error_message_bad_request),
-    NO_ROUT(400, R.string.error_message_no_rout_to_host)
+    NO_ROUT(400, R.string.error_message_no_rout_to_host),
+    RPC_FAIL(200, R.string.error_message_rpc_error)
 }
 
 /** Client configuration for the [UT5_SERVICE] */

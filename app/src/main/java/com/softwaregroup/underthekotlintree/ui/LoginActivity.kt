@@ -1,6 +1,5 @@
 package com.softwaregroup.underthekotlintree.ui
 
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +9,7 @@ import com.softwaregroup.underthekotlintree.model.LoginData
 import com.softwaregroup.underthekotlintree.net.*
 import com.softwaregroup.underthekotlintree.storage.*
 import com.softwaregroup.underthekotlintree.ui.dashboard.DashboardActivity
+import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import com.softwaregroup.underthekotlintree.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
@@ -40,20 +40,6 @@ class LoginActivity : BaseActivity(), OnClickListener {
         }
     }
 
-    /** Unwrap the [LoginData] from withing the [response]. Show and error message and return null if the request was not successful*/
-    private fun processLoginResponse(response: HttpCallResponse<JsonRpcResponse<LoginData>>): LoginData? {
-        return if (response.isSuccess && response.result!!.error == null) {
-            response.result.result
-        } else {
-            showErrorMessage(when (response.isSuccess) {
-                true -> response.result!!.error!!.message
-                false -> getString(response.errorCode!!.messageStringId)
-            })
-
-            null
-        }
-    }
-
     private fun showLoginLoad() {
         loginProgress.visibility = VISIBLE
         loginButton.isEnabled = false
@@ -66,21 +52,6 @@ class LoginActivity : BaseActivity(), OnClickListener {
         loginButton.isEnabled = true
         loginNameInput.isEnabled = true
         loginPasswordInput.isEnabled = true
-    }
-
-    /** Generate a [JsonRpcRequest] for the [Ut5Service.login] */
-    private fun getLoginRequest(isForSilentLogin: Boolean = false): JsonRpcRequest {
-        return when (isForSilentLogin) {
-            false -> JsonRpcRequest(
-                    method = REQUEST_IDENTITY_CHECK,
-                    params = mapOf(
-                            "username" to loginNameInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
-                            "password" to loginPasswordInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
-                            "timezone" to TimeZone.getDefault().getDisplayName(true, TimeZone.SHORT),
-                            "channel" to "mobile"
-                    ))
-            true -> JsonRpcRequest(method = REQUEST_IDENTITY_CHECK, params = mapOf("channel" to "mobile"))
-        }
     }
 
     private fun validateLoginInput(): Boolean {
@@ -101,16 +72,16 @@ class LoginActivity : BaseActivity(), OnClickListener {
         }
     }
 
+
     private fun beginLogin(isSilentLogin: Boolean = false) {
         showLoginLoad()
 
         // Create an AsyncTask for executing login request.
-        val task = HttpAsyncTask<JsonRpcResponse<LoginData>> { response ->
-            // on-request-done callback \/
+        val task = HttpAsyncTask<LoginData> { response ->
             hideLoginLoad()
 
-            val loginData: LoginData? = processLoginResponse(response)
-            if (loginData != null) { // if the [processLoginResponse] method found valid LoginData -> save results and proceed to [DashboardActivity]
+            if (response.isSuccess) {
+                val loginData: LoginData = response.result!!
                 loggedInPerson = loginData.person
                 language = loginData.language?.name ?: DEFAULT_LANGUAGE
                 jwt = loginData.jwt
@@ -118,16 +89,29 @@ class LoginActivity : BaseActivity(), OnClickListener {
 
                 startActivity(DashboardActivity::class.java)
                 finish() // finish activity to remove it from the Task and disallow back-navigation to it once logged out (unless via startActivity())
+            } else {
+                showHttpErrorMessage(response)
             }
-
         }
 
-        //todo - this is *bad*, but the first call to UT5_SERVICE.login(getLoginRequest()) takes OVER 1.4 SECONDS! ffs....
-        object : AsyncTask<Void?, Void?, Void?>() {
-            override fun doInBackground(vararg params: Void?): Void? {
-                task.execute(if (isSilentLogin) UT5_SERVICE.silentLogin(getLoginRequest(true)) else UT5_SERVICE.login(getLoginRequest(false)))
-                return null
-            }
-        }.execute()
+        if (isSilentLogin)
+            task.execute(UT5_SERVICE.silentLogin(getLoginRequest(true)))
+        else
+            task.execute(UT5_SERVICE.login(getLoginRequest(false)))
+    }
+
+    /** Generate a [JsonRpcRequest] for the [Ut5Service.login] */
+    private fun getLoginRequest(isForSilentLogin: Boolean = false): JsonRpcRequest {
+        return when (isForSilentLogin) {
+            false -> JsonRpcRequest(
+                    method = REQUEST_IDENTITY_CHECK,
+                    params = mapOf(
+                            "username" to loginNameInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
+                            "password" to loginPasswordInput.text.toString().trim(), //todo - to trim or not to trim? That is ... *a* question.
+                            "timezone" to TimeZone.getDefault().getDisplayName(true, TimeZone.SHORT),
+                            "channel" to "mobile"
+                    ))
+            true -> JsonRpcRequest(method = REQUEST_IDENTITY_CHECK, params = mapOf("channel" to "mobile"))
+        }
     }
 }

@@ -36,9 +36,9 @@ class DashboardUsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showLoadingIndicator()
-        HttpAsyncTask<JsonRpcResponse<UserFetchData>> { response ->
+        HttpAsyncTask<UserFetchData> { response ->
             hideLoadingIndicator()
-            val userData: UserFetchData? = processResponse(response)
+            val userData: UserFetchData? = response.result
 
             if (userData?.user != null){
                 usersRecyclerView.adapter = UserAdapter(activity.layoutInflater, userData.user)
@@ -55,19 +55,6 @@ class DashboardUsersFragment : Fragment() {
 
     private fun hideLoadingIndicator() {
         usersProgress.visibility = View.GONE
-    }
-
-    /** Unwrap the [UserFetchData] from withing the [response]. Show and error message and return null if the request was not successful*/
-    private fun processResponse(response: HttpCallResponse<JsonRpcResponse<UserFetchData>>): UserFetchData? {
-        return if (response.isSuccess && response.result!!.error == null) {
-            response.result.result
-        } else {
-            activity.showErrorMessage(when (response.isSuccess) {
-                true -> response.result!!.error!!.message
-                false -> getString(response.errorCode!!.messageStringId)
-            })
-            null
-        }
     }
 
 

@@ -40,11 +40,4 @@ abstract class BaseActivity : AppCompatActivity() {
         finish()
     }
 
-    /** Show error ui elements */
-    protected fun showErrorMessage(message: String) {
-        // todo - impl proper
-        val snek: Snackbar = Snackbar.make(window.decorView, message, Snackbar.LENGTH_INDEFINITE)
-        snek.setAction(android.R.string.ok) { snek.dismiss() }.show()
-    }
-
 }

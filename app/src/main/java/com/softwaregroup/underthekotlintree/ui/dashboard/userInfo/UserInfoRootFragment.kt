@@ -31,12 +31,11 @@ class UserInfoRootFragment : Fragment() {
         return inflater!!.inflate(R.layout.fragment_user_info_root, container, false)
     }
 
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        HttpAsyncTask<JsonRpcResponse<UserGetData>> { response ->
-            val userData: UserGetData? = processResponse(response)
+        HttpAsyncTask<UserGetData> { response ->
+            val userData: UserGetData? = response.result
 
             if (userData?.user != null){
                 userInfoPager.adapter = object : FragmentPagerAdapter(fragmentManager) {
@@ -63,17 +62,17 @@ class UserInfoRootFragment : Fragment() {
         )
     }
 
-    /** Unwrap the [UserFetchData] from withing the [response]. Show and error message and return null if the request was not successful*/
-    private fun processResponse(response: HttpCallResponse<JsonRpcResponse<UserGetData>>): UserGetData? {
-        return if (response.isSuccess && response.result!!.error == null) {
-            response.result.result
-        } else {
-            activity.showErrorMessage(when (response.isSuccess) {
-                true -> response.result!!.error!!.message
-                false -> getString(response.errorCode!!.messageStringId)
-            })
-            null
-        }
-    }
+//    /** Unwrap the [UserFetchData] from withing the [response]. Show and error message and return null if the request was not successful*/
+//    private fun processResponse(response: HttpCallResponse<JsonRpcResponse<UserGetData>>): UserGetData? {
+//        return if (response.isSuccess && response.result!!.error == null) {
+//            response.result.result
+//        } else {
+//            activity.showErrorMessage(when (response.isSuccess) {
+//                true -> response.result!!.error!!.message
+//                false -> getString(response.errorCode!!.messageStringId)
+//            })
+//            null
+//        }
+//    }
 
 }

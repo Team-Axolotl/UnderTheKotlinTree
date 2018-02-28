@@ -37,6 +37,7 @@
     <string name="label_language">Language</string>
     <string name="label_phone_model">Phone model</string>
     <string name="label_computer_model">Computer model</string>
+    <string name="error_message_rpc_error">RPC_ERROR!</string>
     <!-- END ERROR MESSAGES -->
 
 </resources>

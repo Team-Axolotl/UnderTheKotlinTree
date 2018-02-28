@@ -6,13 +6,13 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.view_toolbar_standard.*
 
 class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +61,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_users -> {
+                findViewById<View>(R.id.dashboardFillerImage).visibility = View.GONE
                 supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.dashboardFragmentContainer, DashboardUsersFragment.newInstance(), "ASDASDSd")
