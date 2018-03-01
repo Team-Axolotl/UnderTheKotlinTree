@@ -1,5 +1,6 @@
 package com.softwaregroup.underthekotlintree.net
 
+import android.util.Log
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.storage.getCookie
 import com.softwaregroup.underthekotlintree.storage.jwt
@@ -7,6 +8,7 @@ import com.softwaregroup.underthekotlintree.storage.xsrf
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 /** Representation of a http error mapped to a strings.xml value for human-readable message. */
@@ -22,6 +24,7 @@ enum class ErrorCode(val code: Int, val messageStringId: Int) {
 val UT5_CLIENT: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(30_000, TimeUnit.MILLISECONDS)
         .readTimeout(30_000, TimeUnit.MILLISECONDS)
+        .addInterceptor(HttpLoggingInterceptor{ Log.d("OkHttp", it)}.setLevel(HttpLoggingInterceptor.Level.BODY))
         .addInterceptor(AuthInterceptor())
         .build()
 
