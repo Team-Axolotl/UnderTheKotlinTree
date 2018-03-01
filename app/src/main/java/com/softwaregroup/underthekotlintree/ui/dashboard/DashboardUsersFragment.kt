@@ -16,7 +16,6 @@ import com.softwaregroup.underthekotlintree.model.User
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
-import com.softwaregroup.underthekotlintree.storage.*
 import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
@@ -40,7 +39,7 @@ class DashboardUsersFragment : Fragment() {
 
             if (response.isSuccess) {
                 response.result!! // assert result is non-null
-                usersRecyclerView.adapter = UserAdapter(activity.layoutInflater, response.result.user)
+                usersRecyclerView.adapter = UserAdapter(activity.layoutInflater, response.result.users)
             } else {
                 activity.showHttpErrorMessage(response)
             }
@@ -58,6 +57,7 @@ class DashboardUsersFragment : Fragment() {
 
     /** Generate a [JsonRpcRequest] for the [Ut5Service.userFetch] */
     private fun getUserFetchRequest(): JsonRpcRequest {
+
         return JsonRpcRequest(
                 method = REQUEST_USER_USER_FETCH,
                 params = mapOf(

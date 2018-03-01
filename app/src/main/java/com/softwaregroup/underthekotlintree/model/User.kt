@@ -19,7 +19,8 @@ data class User(
 )
 
 data class UserFetchData(
-        val user: ArrayList<User>
+        @JsonProperty("user")
+        val users: ArrayList<User>
 //todo - paging data
 )
 
