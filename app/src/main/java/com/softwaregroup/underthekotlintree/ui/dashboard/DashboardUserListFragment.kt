@@ -20,10 +20,10 @@ import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFr
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
 
-class DashboardUsersFragment : Fragment() {
+class DashboardUserListFragment : Fragment() {
 
     companion object {
-        fun newInstance(): DashboardUsersFragment = DashboardUsersFragment()
+        fun newInstance(): DashboardUserListFragment = DashboardUserListFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -112,13 +112,14 @@ class DashboardUsersFragment : Fragment() {
                     R.drawable.ic_locked
                 } else {
                     // todo - handle possible nullity. Maybe add an 'unknown/?' status icon?
+                    Log.w("fata", user.statusId)
                     UserStatusMap.statusIdIconRes[user.statusId]!!
                 }
             }
 
             override fun onClick(v: View?) {
                 if (boundUser != null)
-                    this@DashboardUsersFragment.openUserFragment(boundUser!!)
+                    this@DashboardUserListFragment.openUserFragment(boundUser!!)
             }
         }
     }

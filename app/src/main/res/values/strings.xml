@@ -23,7 +23,7 @@
     <string name="error_invalid_input">Invalid input!</string>
     <string name="error_message_bad_request" tools:keep="@string/error_message_bad_request">Bad request. Ooops :$</string>
     <string name="message_double_press_to_exit">Press \'back\' again to exit.</string>
-    <string name="label_users">Users</string>
+    <string name="label_user_list">Users</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="error_message_no_rout_to_host" tools:keep="@string/error_message_no_rout_to_host">Couldn\'t find rout to host</string>
@@ -38,6 +38,7 @@
     <string name="label_phone_model">Phone model</string>
     <string name="label_computer_model">Computer model</string>
     <string name="error_message_rpc_error">RPC_ERROR!</string>
+    <string name="label_user_creation">Create user</string>
     <!-- END ERROR MESSAGES -->
 
 </resources>

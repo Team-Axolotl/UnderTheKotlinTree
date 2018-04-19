@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.ui.BaseActivity
+import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.view_toolbar_standard.*
 
@@ -59,12 +60,19 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        findViewById<View>(R.id.dashboardFillerImage).visibility = View.GONE
+
         when (item.itemId) {
-            R.id.nav_users -> {
-                findViewById<View>(R.id.dashboardFillerImage).visibility = View.GONE
+            R.id.nav_user_list -> {
                 supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.dashboardFragmentContainer, DashboardUsersFragment.newInstance(), "ASDASDSd")
+                        .replace(R.id.dashboardFragmentContainer, DashboardUserListFragment.newInstance(), "ASDASDSd")
+                        .commit()
+            }
+            R.id.nav_user_create -> {
+                supportFragmentManager
+                        .beginTransaction()
+//                        .replace(R.id.dashboardFragmentContainer, UserCreationRootFragment.newInstance(), "ASDASDSd")
                         .commit()
             }
             R.id.nav_logout -> {

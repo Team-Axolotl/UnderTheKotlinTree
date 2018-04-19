@@ -5,8 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_users"
-            android:title="@string/label_users" />
+            android:id="@+id/nav_user_list"
+            android:title="@string/label_user_list" />
+        <item
+            android:id="@+id/nav_user_create"
+            android:title="@string/label_user_creation" />
     </group>
 
     <item android:title="">

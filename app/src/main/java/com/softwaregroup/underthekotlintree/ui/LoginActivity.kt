@@ -91,6 +91,7 @@ class LoginActivity : BaseActivity(), OnClickListener {
                 finish() // finish activity to remove it from the Task and disallow back-navigation to it once logged out (unless via startActivity())
             } else {
                 showHttpErrorMessage(response)
+                clearMemStorage() // clear jwt and xsrf if login failed. Will be re-stored on successful u.name+pass login
             }
         }
 

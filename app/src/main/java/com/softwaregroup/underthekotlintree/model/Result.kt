@@ -1,5 +1,6 @@
 package com.softwaregroup.underthekotlintree.model
 
+//todo - what DAFUQ is this shit?! :@
 data class Result(
 	val userActorDeviceUnapproved: List<Any?>? = null,
 	val emailUnapproved: List<Any?>? = null,
@@ -22,7 +23,7 @@ data class Result(
 	val policyCredentials: List<PolicyCredentialsItem?>? = null,
 	val memberOF: List<MemberOFItem?>? = null,
 	val rolesPossibleForAssign: List<RolesPossibleForAssignItem?>? = null,
-	val user: List<UserItem?>? = null,
+	val user: List<User?>? = null,
 	val email: List<Any?>? = null,
 	val addressUnapproved: List<Any?>? = null
 )
