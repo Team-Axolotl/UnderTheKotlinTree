@@ -7,23 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.softwaregroup.underthekotlintree.R
-import com.softwaregroup.underthekotlintree.model.User
-import com.softwaregroup.underthekotlintree.model.UserFetchData
+import com.softwaregroup.underthekotlintree.model.UserBasicInfo
 import com.softwaregroup.underthekotlintree.model.UserGetData
 import com.softwaregroup.underthekotlintree.net.*
-import com.softwaregroup.underthekotlintree.util.showErrorMessage
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
-import com.softwaregroup.underthekotlintree.util.toast
 import kotlinx.android.synthetic.main.fragment_user_info_root.*
 
 class UserInfoRootFragment : Fragment() {
 
-    private lateinit var user: User
+    private lateinit var userBasicInfo: UserBasicInfo
+    private lateinit var userData: UserGetData
 
     companion object {
-        fun newInstance(user: User): UserInfoRootFragment {
+        fun newInstance(user: UserBasicInfo): UserInfoRootFragment {
             val frag = UserInfoRootFragment()
-            frag.user = user
+            frag.userBasicInfo = user
             return frag
         }
     }
@@ -37,18 +35,21 @@ class UserInfoRootFragment : Fragment() {
 
         HttpAsyncTask<UserGetData> { response ->
 
-            if (response.isSuccess){
+            if (response.isSuccess) {
                 response.result!!
+                userData = response.result
+
                 userInfoPager.adapter = object : FragmentPagerAdapter(fragmentManager) {
                     val pages = listOf<Fragment>(
                             UserGeneralInfoFragment.newInstance(response.result)
+                            //todo - other pages
                     )
 
                     override fun getItem(position: Int): Fragment = pages[position]
                     override fun getCount(): Int = pages.size
                     override fun getPageTitle(position: Int): String = "TODO: $position"
                 }
-            } else{
+            } else {
                 activity.showHttpErrorMessage(response)
             }
         }.execute(UT5_SERVICE.userGet(getUserGetRequest()))
@@ -59,7 +60,7 @@ class UserInfoRootFragment : Fragment() {
     private fun getUserGetRequest(): JsonRpcRequest {
         return JsonRpcRequest(
                 method = REQUEST_USER_USER_GET,
-                params = mapOf("actorId" to "${user.actorId}")
+                params = mapOf("actorId" to "${userBasicInfo.actorId}")
         )
     }
 }

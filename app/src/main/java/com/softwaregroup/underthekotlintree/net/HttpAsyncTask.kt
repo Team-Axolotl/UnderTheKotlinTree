@@ -15,6 +15,7 @@ import java.net.SocketTimeoutException
  */
 class HttpAsyncTask<T>(private inline val onResult: (HttpCallResponse<T>) -> Unit) : AsyncTask<Call<T>, Unit, HttpCallResponse<T>>() {
 
+    // todo - add method logging
     override fun doInBackground(vararg calls: Call<T>): HttpCallResponse<T> {
         // todo - handle varargs and nullability
 

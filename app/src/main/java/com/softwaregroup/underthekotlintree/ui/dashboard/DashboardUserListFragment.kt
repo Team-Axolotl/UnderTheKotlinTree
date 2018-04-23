@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.model.User
+import com.softwaregroup.underthekotlintree.model.UserBasicInfo
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
@@ -68,14 +69,14 @@ class DashboardUserListFragment : Fragment() {
                 ))
     }
 
-    private fun openUserFragment(boundUser: User) {
+    private fun openUserFragment(boundUser: UserBasicInfo) {
         activity.supportFragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, UserInfoRootFragment.newInstance(boundUser)).commit()
     }
 
 
     inner class UserAdapter(
             private val inflater: LayoutInflater,
-            private val users: MutableList<User>
+            private val users: MutableList<UserBasicInfo>
     ) : RecyclerView.Adapter<UserAdapter.UserHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) =
@@ -84,7 +85,6 @@ class DashboardUserListFragment : Fragment() {
         override fun getItemCount() = users.size
 
         override fun onBindViewHolder(holder: UserHolder?, position: Int) {
-            Log.wtf("TAAAG", "SAdasdadsd   " + position)
             holder!!.bind(users[position])
         }
 
@@ -97,9 +97,9 @@ class DashboardUserListFragment : Fragment() {
             private val statusIcon: ImageView = itemView.findViewById(R.id.userStatus)
             private val nameView: TextView = itemView.findViewById(R.id.userName)
             private val branchView: TextView = itemView.findViewById(R.id.userBranch)
-            private var boundUser: User? = null
+            private var boundUser: UserBasicInfo? = null
 
-            fun bind(user: User) {
+            fun bind(user: UserBasicInfo) {
                 this.statusIcon.setImageDrawable(ContextCompat.getDrawable(statusIcon.context, getUserStatusIcon(user)))
                 this.nameView.text = user.userName
                 this.branchView.text = "${user.branches} | ${user.roles}"
@@ -107,7 +107,7 @@ class DashboardUserListFragment : Fragment() {
             }
 
             @DrawableRes
-            private fun getUserStatusIcon(user: User): Int {
+            private fun getUserStatusIcon(user: UserBasicInfo): Int {
                 return if (user.failed != null) {
                     R.drawable.ic_locked
                 } else {

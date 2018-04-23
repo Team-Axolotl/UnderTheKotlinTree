@@ -7,32 +7,18 @@ import java.util.*
 
 data class User(
         val actorId: Int,
-        val userName: String,
-        val firstName: String,
-        val lastName: String,
-        val roles: String,
-        val branches: String,
-        val isEnabled: Boolean,
-        val isApproved: Boolean,
-        val statusId: String,
-
-        val rejectReason: String?,
-        val failed: String?,
-        val updatedBy: String?,
-        val numberFormat: String?,
-        val isDeleted: Boolean?,
-        val policyId: String?,
+        val primaryLanguageId: Int,
         val dateFormat: String?,
-        val isNew: Int?,
-        val primaryLanguageId: String?
+        val numberFormat: String?,
+        val isEnabled: Boolean,
+        val isDeleted: Boolean,
+        val isApproved: Boolean,
+        val updatedBy: String?,
+        val statusId: String,
+        val policyId: Int,
+        val rejectReason: String?,
+        val isNew: Boolean
 )
-
-data class UserFetchData(
-        @JsonProperty("user")
-        val users: ArrayList<User>
-        //todo - paging data
-)
-
 
 @Suppress("ArrayInDataClass")
 data class UserGetData(
@@ -48,6 +34,26 @@ data class UserGetData(
         @JsonProperty("user.hash") val userHash: Array<UserHashItem>,
         val rolesPossibleForAssign: Array<RolesPossibleForAssignItem>,
         val externalSystemCredentials: Array<ExternalSystemCredentialsItem>
+)
+
+
+data class UserFetchData(
+        @JsonProperty("user")
+        val users: ArrayList<UserBasicInfo>
+)
+
+data class UserBasicInfo(
+        val actorId: Int,
+        val userName: String,
+        val firstName: String,
+        val lastName: String,
+        val roles: String,
+        val branches: String,
+        val isEnabled: Boolean,
+        val isApproved: Boolean,
+        val statusId: String,
+        val rejectReason: String?,
+        val failed: String?
 )
 
 
