@@ -17,6 +17,7 @@ import com.softwaregroup.underthekotlintree.model.UserBasicInfo
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
+import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserGeneralInfoFragment
 import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard_users.*
 class DashboardUserListFragment : Fragment() {
 
     companion object {
+        const val TAG = "DashboardUserListFragment"
         fun newInstance(): DashboardUserListFragment = DashboardUserListFragment()
     }
 
@@ -58,7 +60,6 @@ class DashboardUserListFragment : Fragment() {
 
     /** Generate a [JsonRpcRequest] for the [Ut5Service.userFetch] */
     private fun getUserFetchRequest(): JsonRpcRequest {
-
         return JsonRpcRequest(
                 method = REQUEST_USER_USER_FETCH,
                 params = mapOf(
@@ -70,7 +71,10 @@ class DashboardUserListFragment : Fragment() {
     }
 
     private fun openUserFragment(boundUser: UserBasicInfo) {
-        activity.supportFragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, UserInfoRootFragment.newInstance(boundUser)).commit()
+        val fragmentManager = activity.supportFragmentManager
+        val fragment = /*fragmentManager.findFragmentByTag(UserInfoRootFragment.TAG)?:*/ UserInfoRootFragment.newInstance(boundUser)
+
+        fragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, fragment).commitNow()
     }
 
 
