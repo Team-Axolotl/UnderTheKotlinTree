@@ -1,23 +1,21 @@
-package com.softwaregroup.underthekotlintree.ui.dashboard
+package com.softwaregroup.underthekotlintree.ui.dashboard.userList
 
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.softwaregroup.underthekotlintree.R
-import com.softwaregroup.underthekotlintree.model.User
 import com.softwaregroup.underthekotlintree.model.UserBasicInfo
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
-import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserGeneralInfoFragment
+import com.softwaregroup.underthekotlintree.ui.dashboard.DashboardActivity
 import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
@@ -70,13 +68,6 @@ class DashboardUserListFragment : Fragment() {
                 ))
     }
 
-    private fun openUserFragment(boundUser: UserBasicInfo) {
-        val fragmentManager = activity.supportFragmentManager
-        val fragment = /*fragmentManager.findFragmentByTag(UserInfoRootFragment.TAG)?:*/ UserInfoRootFragment.newInstance(boundUser)
-
-        fragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, fragment).commitNow()
-    }
-
 
     inner class UserAdapter(
             private val inflater: LayoutInflater,
@@ -91,7 +82,6 @@ class DashboardUserListFragment : Fragment() {
         override fun onBindViewHolder(holder: UserHolder?, position: Int) {
             holder!!.bind(users[position])
         }
-
 
         inner class UserHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
             init {
@@ -120,8 +110,7 @@ class DashboardUserListFragment : Fragment() {
             }
 
             override fun onClick(v: View?) {
-                if (boundUser != null)
-                    this@DashboardUserListFragment.openUserFragment(boundUser!!)
+                (activity as DashboardActivity).openFragment(UserInfoRootFragment.newInstance(boundUser!!))
             }
         }
     }

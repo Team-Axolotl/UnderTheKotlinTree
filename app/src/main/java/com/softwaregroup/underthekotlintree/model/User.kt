@@ -3,6 +3,7 @@ package com.softwaregroup.underthekotlintree.model
 import android.support.annotation.DrawableRes
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.softwaregroup.underthekotlintree.R
+import java.io.Serializable
 import java.util.*
 
 data class User(
@@ -18,7 +19,7 @@ data class User(
         val policyId: Int,
         val rejectReason: String?,
         val isNew: Boolean
-)
+) : Serializable
 
 @Suppress("ArrayInDataClass")
 data class UserGetData(
@@ -34,7 +35,7 @@ data class UserGetData(
         @JsonProperty("user.hash") val userHash: Array<UserHashItem>,
         val rolesPossibleForAssign: Array<RolesPossibleForAssignItem>,
         val externalSystemCredentials: Array<ExternalSystemCredentialsItem>
-)
+) : Serializable
 
 data class Email(
         val emailUnapprovedId: String?,
@@ -46,13 +47,13 @@ data class Email(
         val statusId: String?,
         val oldValues: String?,
         val isPrimary: Boolean?
-)
+) : Serializable
 
 
 data class UserFetchData(
         @JsonProperty("user")
         val users: ArrayList<UserBasicInfo>
-)
+) : Serializable
 
 data class UserBasicInfo(
         val actorId: Int,
@@ -66,7 +67,7 @@ data class UserBasicInfo(
         val statusId: String,
         val rejectReason: String?,
         val failed: String?
-)
+) : Serializable
 
 
 /**

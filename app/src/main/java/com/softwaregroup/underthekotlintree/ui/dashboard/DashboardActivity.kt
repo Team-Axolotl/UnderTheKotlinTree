@@ -2,6 +2,7 @@ package com.softwaregroup.underthekotlintree.ui.dashboard
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
@@ -9,7 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.ui.BaseActivity
-import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
+import com.softwaregroup.underthekotlintree.ui.dashboard.userCreation.UserCreationRootFragment
+import com.softwaregroup.underthekotlintree.ui.dashboard.userList.DashboardUserListFragment
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.view_toolbar_standard.*
 
@@ -49,9 +51,6 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
@@ -63,23 +62,17 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         findViewById<View>(R.id.dashboardFillerImage).visibility = View.GONE
 
         when (item.itemId) {
-            R.id.nav_user_list -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.dashboardFragmentContainer, DashboardUserListFragment.newInstance(), "ASDASDSd")
-                        .commit()
-            }
-            R.id.nav_user_create -> {
-                supportFragmentManager
-                        .beginTransaction()
-//                        .replace(R.id.dashboardFragmentContainer, UserCreationRootFragment.newInstance(), "ASDASDSd")
-                        .commit()
-            }
+            R.id.nav_user_list -> openFragment(DashboardUserListFragment.newInstance())
+            R.id.nav_user_create -> openFragment(UserCreationRootFragment.newInstance())
             R.id.nav_logout -> {
             }
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, fragment).commit()
     }
 }
