@@ -25,7 +25,7 @@ data class UserGetData(
         val person: Person,
         val phone: Array<PhoneItem>,
         val address: Array<Address>,
-        val email: Array<String>,
+        val email: Array<Email>,
         val emailUnapproved: Array<String>,
         val memberOF: Array<MemberOFItem>,
         val user: Array<User>,
@@ -34,6 +34,18 @@ data class UserGetData(
         @JsonProperty("user.hash") val userHash: Array<UserHashItem>,
         val rolesPossibleForAssign: Array<RolesPossibleForAssignItem>,
         val externalSystemCredentials: Array<ExternalSystemCredentialsItem>
+)
+
+data class Email(
+        val emailUnapprovedId: String?,
+        val emailId: Int,
+        val actorId: Int,
+        val value: String,
+        val frontEndRecordId: String?,
+        val emailTypeId: String?,
+        val statusId: String?,
+        val oldValues: String?,
+        val isPrimary: Boolean?
 )
 
 

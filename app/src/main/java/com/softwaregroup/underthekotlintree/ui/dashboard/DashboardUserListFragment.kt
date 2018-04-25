@@ -111,8 +111,6 @@ class DashboardUserListFragment : Fragment() {
                 return if (user.failed != null) {
                     R.drawable.ic_locked
                 } else {
-                    // todo - handle possible nullity. Maybe add an 'unknown/?' status icon?
-                    Log.w("fata", user.statusId)
                     UserStatusMap.statusIdIconRes[user.statusId]!!
                 }
             }
