@@ -11,12 +11,16 @@ import com.softwaregroup.underthekotlintree.model.UserGetData
 import com.softwaregroup.underthekotlintree.net.HttpAsyncTask
 import com.softwaregroup.underthekotlintree.net.JsonRpcRequest
 import com.softwaregroup.underthekotlintree.net.UT5_SERVICE
+import com.softwaregroup.underthekotlintree.ui.BaseFragment
 import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserGeneralInfoFragment
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_user_info_root.*
 
-class UserCreationRootFragment : Fragment() {
+class UserCreationRootFragment : BaseFragment() {
 
+    override fun getTitle(): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object {
         fun newInstance() = UserCreationRootFragment()
@@ -28,7 +32,7 @@ class UserCreationRootFragment : Fragment() {
 
         HttpAsyncTask<UserGetData> { response ->
 
-            if (response.isSuccess){
+            if (response.isSuccess) {
                 response.result!!
                 userInfoPager.adapter = object : FragmentPagerAdapter(fragmentManager) {
                     val pages = listOf<Fragment>(
@@ -39,7 +43,7 @@ class UserCreationRootFragment : Fragment() {
                     override fun getCount(): Int = pages.size
                     override fun getPageTitle(position: Int): String = "TODO: $position"
                 }
-            } else{
+            } else {
                 activity.showHttpErrorMessage(response)
             }
         }.execute(UT5_SERVICE.userGet(getUserCreateRequest()))

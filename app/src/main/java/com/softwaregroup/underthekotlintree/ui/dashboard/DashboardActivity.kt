@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.ui.BaseActivity
+import com.softwaregroup.underthekotlintree.ui.BaseFragment
 import com.softwaregroup.underthekotlintree.ui.dashboard.userCreation.UserCreationRootFragment
 import com.softwaregroup.underthekotlintree.ui.dashboard.userList.DashboardUserListFragment
 import kotlinx.android.synthetic.main.activity_dashboard.*
@@ -72,7 +73,7 @@ class DashboardActivity : BaseActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun openFragment(fragment: Fragment) {
+    fun openFragment(fragment: BaseFragment) {
         supportFragmentManager.beginTransaction().replace(R.id.dashboardFragmentContainer, fragment).commit()
     }
 }
