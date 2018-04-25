@@ -15,12 +15,17 @@ import com.softwaregroup.underthekotlintree.model.UserBasicInfo
 import com.softwaregroup.underthekotlintree.model.UserFetchData
 import com.softwaregroup.underthekotlintree.model.UserStatusMap
 import com.softwaregroup.underthekotlintree.net.*
+import com.softwaregroup.underthekotlintree.ui.BaseFragment
 import com.softwaregroup.underthekotlintree.ui.dashboard.DashboardActivity
 import com.softwaregroup.underthekotlintree.ui.dashboard.userInfo.UserInfoRootFragment
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import kotlinx.android.synthetic.main.fragment_dashboard_users.*
 
-class DashboardUserListFragment : Fragment() {
+class DashboardUserListFragment : BaseFragment() {
+
+    override fun getTitle(): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     companion object {
         const val TAG = "DashboardUserListFragment"
