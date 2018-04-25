@@ -11,6 +11,8 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
+const val HTTP_LOG = "HttpLog"
+
 /** Representation of a http error mapped to a strings.xml value for human-readable message. */
 enum class ErrorCode(val code: Int, val messageStringId: Int) {
     SOCKET_TIMEOUT(408, R.string.error_message_connection_time_out),
@@ -24,7 +26,7 @@ enum class ErrorCode(val code: Int, val messageStringId: Int) {
 val UT5_CLIENT: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(30_000, TimeUnit.MILLISECONDS)
         .readTimeout(30_000, TimeUnit.MILLISECONDS)
-        .addInterceptor(HttpLoggingInterceptor{ Log.d("OkHttp", it)}.setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(HttpLoggingInterceptor{ Log.d(HTTP_LOG, "\n $it \n")}.setLevel(HttpLoggingInterceptor.Level.BODY))
         .addInterceptor(AuthInterceptor())
         .build()
 
