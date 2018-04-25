@@ -33,6 +33,7 @@ dependencies {
     implementation "com.android.support:design:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofitLibversion"
     implementation "com.squareup.retrofit2:converter-jackson:$retrofitLibversion"
 
@@ -42,6 +43,7 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonLibVersion"
 
 
+    implementation 'com.android.support:support-v4:26.1.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 

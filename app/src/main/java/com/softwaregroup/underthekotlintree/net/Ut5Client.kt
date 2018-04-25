@@ -1,5 +1,6 @@
 package com.softwaregroup.underthekotlintree.net
 
+import android.util.Log
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.storage.getCookie
 import com.softwaregroup.underthekotlintree.storage.jwt
@@ -7,19 +8,25 @@ import com.softwaregroup.underthekotlintree.storage.xsrf
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
+
+const val HTTP_LOG = "HttpLog"
 
 /** Representation of a http error mapped to a strings.xml value for human-readable message. */
 enum class ErrorCode(val code: Int, val messageStringId: Int) {
     SOCKET_TIMEOUT(408, R.string.error_message_connection_time_out),
     CONNECT_FAIL(418, R.string.error_message_no_connection),
-    BAD_REQUEST(400, R.string.error_message_bad_request)
+    BAD_REQUEST(400, R.string.error_message_bad_request),
+    NO_ROUT(400, R.string.error_message_no_rout_to_host),
+    RPC_FAIL(200, R.string.error_message_rpc_error)
 }
 
 /** Client configuration for the [UT5_SERVICE] */
 val UT5_CLIENT: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(30_000, TimeUnit.MILLISECONDS)
         .readTimeout(30_000, TimeUnit.MILLISECONDS)
+        .addInterceptor(HttpLoggingInterceptor{ Log.d(HTTP_LOG, "\n $it \n")}.setLevel(HttpLoggingInterceptor.Level.BODY))
         .addInterceptor(AuthInterceptor())
         .build()
 

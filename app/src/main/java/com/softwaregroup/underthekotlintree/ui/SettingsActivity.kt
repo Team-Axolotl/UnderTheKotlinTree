@@ -8,7 +8,7 @@ import com.softwaregroup.underthekotlintree.storage.baseUrl
 import com.softwaregroup.underthekotlintree.util.startActivity
 import com.softwaregroup.underthekotlintree.util.toast
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.app_bar_dashboard.*
+import kotlinx.android.synthetic.main.view_toolbar_standard.*
 import okhttp3.HttpUrl
 
 class SettingsActivity : BaseActivity() {

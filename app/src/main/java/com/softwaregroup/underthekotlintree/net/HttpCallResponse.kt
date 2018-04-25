@@ -16,7 +16,7 @@ import retrofit2.Call
  * The [isSuccess] flag *only denotes that the call connected successfully with usable data*, not that the result is positive.
  *
  * <b>NB!:</b> errors like " 400 - Bad request" are considered failed,
- * because although the request made it to the server, it was malformed and no UT message could be retrieved!
+ * because although the request made it to the server, it was malformed and no UT/rpc message could be retrieved!
  */
 data class HttpCallResponse<T> private constructor(
         val startingCall: Call<T>,
