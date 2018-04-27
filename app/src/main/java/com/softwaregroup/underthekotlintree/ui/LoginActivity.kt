@@ -10,10 +10,10 @@ import com.softwaregroup.underthekotlintree.model.LoginData
 import com.softwaregroup.underthekotlintree.net.*
 import com.softwaregroup.underthekotlintree.storage.*
 import com.softwaregroup.underthekotlintree.ui.dashboard.DashboardActivity
-import com.softwaregroup.underthekotlintree.ui.easeUI.linearLayout
 import com.softwaregroup.underthekotlintree.util.showHttpErrorMessage
 import com.softwaregroup.underthekotlintree.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import softwaregroup.com.ease_ui.linearLayout
 import java.util.*
 
 /**
@@ -34,32 +34,32 @@ class LoginActivity : BaseActivity(), OnClickListener {
         setContentView(R.layout.activity_login)
 
         //todo - the commented block is TEMPORARY. For EaseUI testing purposes!
-//        setContentView(
-//                linearLayout(this) {
-//                    textView("testKey1") {
-//                        text = "testText1"
-//                    }
-//                    textView("testKey2") {
-//                        text = "testText2"
-//                        textSizeSp = 26F
-//                    }
-//                    textView("testKey3") {
-//                        text = "testText3"
-//                        heightDp = 64
-//                    }
-//                    textView("testKey4") {
-//                        text = "testText4"
-//                        widthDp = 10
-//                    }
-//                    textView("testKey5") {
-//                        hint = "testHint5"
-//                    }
-//                    textView("testKey5") {
-//                        hint = "testHint6"
-//                        widthDp = ViewGroup.LayoutParams.MATCH_PARENT
-//                    }
-//                }
-//        )
+        setContentView(
+                linearLayout(this) {
+                    textView("testKey1") {
+                        text = "testText1"
+                    }
+                    textView("testKey2") {
+                        text = "testText2"
+                        textSizeSp = 26F
+                    }
+                    textView("testKey3") {
+                        text = "testText3"
+                        heightDp = 64
+                    }
+                    textView("testKey4") {
+                        text = "testText4"
+                        widthDp = 10
+                    }
+                    textView("testKey5") {
+                        hint = "testHint5"
+                    }
+                    textView("testKey5") {
+                        hint = "testHint6"
+                        widthDp = ViewGroup.LayoutParams.MATCH_PARENT
+                    }
+                }
+        )
 
         loginButton.setOnClickListener(this)
         loginSettingsButton.setOnClickListener(this)

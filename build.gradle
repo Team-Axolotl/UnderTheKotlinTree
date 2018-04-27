@@ -2,6 +2,16 @@
 
 buildscript {
     ext.kotlin_version = '1.2.40'
+
+    ext.constraintVersion = "1.1.0"
+    ext.supportLibVersion = "26.1.0"
+    ext.retrofitLibversion = "2.3.0"
+    ext.okhttpLoggerVersion = "3.10.0"
+    ext.jacksonLibVersion = "2.8.2"
+    ext.testRunnerVersion = "1.0.2"
+    ext.espressoVersion = "3.0.2"
+    ext.junitVersion = "4.12"
+
     repositories {
         google()
         jcenter()

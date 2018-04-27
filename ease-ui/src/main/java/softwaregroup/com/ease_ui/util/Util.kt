@@ -1,4 +1,4 @@
-package com.softwaregroup.underthekotlintree.ui.easeUI
+package softwaregroup.com.ease_ui.util
 
 import android.content.Context
 
@@ -11,3 +11,13 @@ import android.content.Context
 fun dpToPx(dp: Float, context: Context): Int {
     return (dp * context.resources.displayMetrics.density + 0.5f).toInt()
 }
+
+// spare parts //
+
+//interface Mappable<VT>{
+//    fun getKey() : String
+//    fun getValue() : VT
+//
+//    fun getEntry() = AbstractMap.SimpleEntry<String, VT>(getKey(), getValue())
+//    fun getPair() = Pair(getKey(), getValue())
+//}

@@ -1,8 +1,6 @@
-package com.softwaregroup.underthekotlintree.ui.easeUI
+package softwaregroup.com.ease_ui
 
-import android.util.Log
 import android.view.View
-import android.widget.TextView
 import com.fasterxml.jackson.annotation.JsonIgnore
 import kotlin.collections.ArrayList
 
@@ -82,7 +80,7 @@ class ButtonField(
 fun page(id: String, attrs: PageBuilder.() -> Unit): Page = PageBuilder(id).apply(attrs).build()
 
 
-// Example build \/ here. Just add water. ... ... or uncomment. whatever.
+// Example createView \/ here. Just add water. ... ... or uncomment. whatever.
 //val builtPage = page("testPage") {
 //    textField("testField1") {
 //        text = "testText"
@@ -97,8 +95,8 @@ fun page(id: String, attrs: PageBuilder.() -> Unit): Page = PageBuilder(id).appl
 //}
 
 
-// This is an example of an invalid page build.
-// The @PageDsl annotation blocks the out-of place calls to the build methods like textField(id, attr)
+// This is an example of an invalid page createView.
+// The @PageDsl annotation blocks the out-of place calls to the createView methods like textField(id, attr)
 //val failedPage = page("testPage") {
 //    textField("testField1") {
 //        text = "testText"
