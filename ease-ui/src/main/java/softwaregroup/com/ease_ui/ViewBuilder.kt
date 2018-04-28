@@ -16,7 +16,7 @@ abstract class ViewBuilder<Y : View>(context: Context) {
 
     open var widthDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
     open var heightDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
-    internal abstract fun createView() : Y
+    internal abstract fun createView(): Y
 
     internal abstract fun setViewProperties(view: Y)
 
