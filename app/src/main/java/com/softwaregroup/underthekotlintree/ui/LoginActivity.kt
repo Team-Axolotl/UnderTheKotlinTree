@@ -58,6 +58,9 @@ class LoginActivity : BaseActivity(), OnClickListener {
                             toast("WORKEDED")
                         }
                     }
+                    editText {
+                        hint = "OOOoooh?!"
+                    }
                 }
         )
     }

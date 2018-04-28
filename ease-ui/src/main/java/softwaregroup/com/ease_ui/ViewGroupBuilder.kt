@@ -23,10 +23,10 @@ abstract class ViewGroupBuilder<Y : ViewGroup>(context: Context) : ViewBuilder<Y
 
     @CallSuper
     override fun setViewProperties(view: Y) {
-        addChildren(view)
+        insertChildren(view)
     }
 
-    protected open fun addChildren(viewGroup: Y) {
+    protected open fun insertChildren(viewGroup: Y) {
         children.forEach { viewGroup.addView(it) }
     }
 }
