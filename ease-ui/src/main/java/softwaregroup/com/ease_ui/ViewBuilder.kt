@@ -16,17 +16,23 @@ abstract class ViewBuilder<Y : View>(context: Context) {
 
     open var widthDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
     open var heightDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
-
     internal abstract fun createView() : Y
 
     internal abstract fun setViewProperties(view: Y)
 
-    internal fun build(): Y = createView().apply { setViewProperties(this) }
+    internal fun build(): Y {
+        val view = createView()
+        setLayoutParams(view)
+        setViewProperties(view)
+        return view
+    }
 
-    protected fun getLayoutParams() = ViewGroup.LayoutParams(
-            if (heightDp < 0) heightDp else dpToPx(heightDp.toFloat(), getContext()),
-            if (widthDp < 0) widthDp else dpToPx(widthDp.toFloat(), getContext())
-    )
+    protected fun setLayoutParams(view: Y) {
+        view.layoutParams = ViewGroup.LayoutParams(
+                if (heightDp < 0) heightDp else dpToPx(heightDp.toFloat(), getContext()),
+                if (widthDp < 0) widthDp else dpToPx(widthDp.toFloat(), getContext())
+        )
+    }
 }
 
 fun linearLayout(context: Context, attrs: LinerLayoutBuilder.() -> Unit) = LinerLayoutBuilder(context).apply(attrs).build()

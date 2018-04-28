@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import com.softwaregroup.underthekotlintree.R
+import com.softwaregroup.underthekotlintree.util.toast
 import softwaregroup.com.ease_ui.linearLayout
 
 /**
@@ -33,6 +34,8 @@ class LoginActivity : BaseActivity(), OnClickListener {
                     textView {
                         text = "testText2"
                         textSizeSp = 26F
+                        widthDp = 100
+                        heightDp = 200
                     }
                     textView {
                         text = "testText3"
@@ -48,6 +51,12 @@ class LoginActivity : BaseActivity(), OnClickListener {
                     textView {
                         hint = "testHint6"
                         widthDp = ViewGroup.LayoutParams.MATCH_PARENT
+                    }
+                    button {
+                        text = "?"
+                        onClickListener = OnClickListener {
+                            toast("WORKEDED")
+                        }
                     }
                 }
         )
