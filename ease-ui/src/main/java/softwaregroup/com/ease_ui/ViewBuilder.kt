@@ -1,36 +1,34 @@
 package softwaregroup.com.ease_ui
 
 import android.content.Context
-import android.support.annotation.CallSuper
 import android.view.View
 import android.view.ViewGroup
 import softwaregroup.com.ease_ui.util.dpToPx
+import java.lang.ref.WeakReference
 
 @DslMarker
 annotation class ViewDsl
 
 @ViewDsl
-abstract class ViewBuilder<Y : View> {
-    // todo fixme - should the Explicit set of width and height be enforced (like in XML) or keep default values?
-    var widthDp = ViewGroup.LayoutParams.WRAP_CONTENT
-    var heightDp = ViewGroup.LayoutParams.WRAP_CONTENT
+abstract class ViewBuilder<Y : View>(context: Context) {
+    private val contextRef = WeakReference(context)
+    protected fun getContext() = contextRef.get()!!
 
-    internal abstract fun createView(context: Context): Y
+    open var widthDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+    open var heightDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
 
-    protected fun getLayoutParams(context: Context) = ViewGroup.LayoutParams(
-            if (heightDp < 0) heightDp else dpToPx(heightDp.toFloat(), context),
-            if (widthDp < 0) widthDp else dpToPx(widthDp.toFloat(), context)
+    internal abstract fun createView() : Y
+
+    internal abstract fun setViewProperties(view: Y)
+
+    internal fun build(): Y = createView().apply { setViewProperties(this) }
+
+    protected fun getLayoutParams() = ViewGroup.LayoutParams(
+            if (heightDp < 0) heightDp else dpToPx(heightDp.toFloat(), getContext()),
+            if (widthDp < 0) widthDp else dpToPx(widthDp.toFloat(), getContext())
     )
-
-    //todo - if implementation tries to set LPs, it'd be a shit-storm to figure out *WHY*
-    @CallSuper
-    internal open fun build(context: Context) : Y {
-        val view = createView(context)
-        view.layoutParams = getLayoutParams(context)
-        return view
-    }
 }
 
-fun linearLayout(context: Context, attrs: LinerLayoutBuilder.() -> Unit) = LinerLayoutBuilder(context).apply(attrs).build(context)
+fun linearLayout(context: Context, attrs: LinerLayoutBuilder.() -> Unit) = LinerLayoutBuilder(context).apply(attrs).build()
 // the duplicate use of the context object is unfortunate, but doesn't make a functional difference
 

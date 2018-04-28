@@ -4,24 +4,19 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import java.lang.ref.WeakReference
 
-abstract class ViewGroupBuilder<Y : ViewGroup>(context: Context) : ViewBuilder<Y>() {
-    private val contextRef = WeakReference(context)
-    protected fun getContext() = contextRef.get()!!
-}
+abstract class ViewGroupBuilder<Y : ViewGroup>(context: Context) : ViewBuilder<Y>(context)
 
 class LinerLayoutBuilder(context: Context) : ViewGroupBuilder<LinearLayout>(context) {
     private val children: ArrayList<View> = ArrayList()
 
-    fun textView(key: String, attrs: TextViewBuilder.() -> Unit) {
-        children.add(TextViewBuilder().apply(attrs).createView(getContext()))
+    override fun setViewProperties(view: LinearLayout) {
+        view.layoutParams = getLayoutParams()
     }
 
-    override fun createView(context: Context): LinearLayout {
-        val layout = LinearLayout(context)
-        layout.orientation = LinearLayout.VERTICAL
-        for (view in children) layout.addView(view)
-        return layout
+    override fun createView() = LinearLayout(getContext())
+
+    fun textView(attrs: TextViewBuilder.() -> Unit) {
+        children.add(TextViewBuilder(getContext()).apply(attrs).build())
     }
 }
