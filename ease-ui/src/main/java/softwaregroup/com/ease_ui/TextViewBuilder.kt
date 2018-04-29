@@ -9,7 +9,7 @@ import android.widget.TextView
 
 const val DEFAULT_TEXT_VIEW_TEXT_SIZE_SP = 14F
 
-abstract class AbstractTextViewBuilder<T : TextView>(context: Context) : ViewBuilder<T>(context) {
+abstract class AbstractTextViewBuilder<T : TextView>(context: Context) : AbstractViewBuilder<T>(context) {
     var text: String? = null
     var hint: String? = null
 
@@ -17,6 +17,7 @@ abstract class AbstractTextViewBuilder<T : TextView>(context: Context) : ViewBui
 
     @CallSuper
     override fun setViewProperties(view: T) {
+        super.setViewProperties(view)
         view.text = text
         view.hint = hint
         view.textSize = textSizeSp

@@ -1,6 +1,7 @@
 package softwaregroup.com.ease_ui.util
 
 import android.content.Context
+import java.util.AbstractMap
 
 /**
  * Convert DP (Density-independent Pixels) to a real pixel value.
@@ -14,10 +15,10 @@ fun dpToPx(dp: Float, context: Context): Int {
 
 // spare parts //
 
-//interface Mappable<VT>{
-//    fun getKey() : String
-//    fun getValue() : VT
-//
-//    fun getEntry() = AbstractMap.SimpleEntry<String, VT>(getKey(), getValue())
-//    fun getPair() = Pair(getKey(), getValue())
-//}
+interface Mappable<VT>{
+    fun getKey() : String
+    fun getValue() : VT
+
+    fun getEntry() = AbstractMap.SimpleEntry<String, VT>(getKey(), getValue())
+    fun getPair() = Pair(getKey(), getValue())
+}
