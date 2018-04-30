@@ -5,44 +5,55 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.CallSuper
 import android.view.View
 import android.view.ViewGroup
-import org.intellij.lang.annotations.Identifier
-import softwaregroup.com.ease_ui.util.dpToPx
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import java.lang.ref.WeakReference
 
 @DslMarker
 annotation class ViewDsl
 
+
 @ViewDsl
-abstract class AbstractViewBuilder<Y : View>(context: Context) {
+abstract class AbstractViewBuilder<Y : View, LP : VGLoutParam>(context: Context, lpp: LPP<LP>) {
+
     private val contextRef = WeakReference(context)
+    private val layoutParams = lpp.createLayoutParams()
     protected fun getContext() = contextRef.get()!!
 
     var id: Int = -1
-
-    open var widthDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
-    open var heightDp: Int = ViewGroup.LayoutParams.WRAP_CONTENT
-
     open var background: Drawable? = null
+
+    @ViewDsl
+    open fun layout(params: LP.() -> Unit) {
+        layoutParams.apply(params)
+    }
 
     internal abstract fun createView(): Y
 
     internal fun build(): Y {
         val view = createView()
+        view.layoutParams = layoutParams
         setViewProperties(view)
         return view
     }
 
     @CallSuper
-    internal open fun setViewProperties(view: Y){
+    internal open fun setViewProperties(view: Y) {
         view.id = id
-        view.background = background
-        view.layoutParams = ViewGroup.LayoutParams(
-                if (heightDp < 0) heightDp else dpToPx(heightDp.toFloat(), getContext()),
-                if (widthDp < 0) widthDp else dpToPx(widthDp.toFloat(), getContext())
-        )
+        if (background != null) view.background = background
     }
 }
 
-fun linearLayout(context: Context, attrs: LinerLayoutBuilder.() -> Unit) = LinerLayoutBuilder(context).apply(attrs).build()
-// the duplicate use of the context object is unfortunate, but doesn't make a functional difference
+typealias LPP<P> = LayoutParamsProvider<P>
 
+interface LayoutParamsProvider<P : ViewGroup.LayoutParams> {
+    fun createLayoutParams(): P
+}
+
+typealias VGLoutParam = ViewGroup.LayoutParams
+
+@ViewDsl
+fun linearLayout(context: Context, attrs: LinerLayoutBuilder<ViewGroup.LayoutParams>.() -> Unit) = LinerLayoutBuilder(context, llp).apply(attrs).build()
+
+private val llp = object : LayoutParamsProvider<ViewGroup.LayoutParams> {
+    override fun createLayoutParams(): ViewGroup.LayoutParams = ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+}

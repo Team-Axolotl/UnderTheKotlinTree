@@ -9,7 +9,8 @@ import android.widget.TextView
 
 const val DEFAULT_TEXT_VIEW_TEXT_SIZE_SP = 14F
 
-abstract class AbstractTextViewBuilder<T : TextView>(context: Context) : AbstractViewBuilder<T>(context) {
+@ViewDsl
+abstract class AbstractTextViewBuilder<T : TextView, LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractViewBuilder<T, LP>(context, lpp) {
     var text: String? = null
     var hint: String? = null
 
@@ -24,15 +25,16 @@ abstract class AbstractTextViewBuilder<T : TextView>(context: Context) : Abstrac
     }
 }
 
-open class TextViewBuilder(context: Context) : AbstractTextViewBuilder<TextView>(context) {
+@ViewDsl
+open class TextViewBuilder<LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractTextViewBuilder<TextView, LP>(context, lpp) {
     override fun createView(): TextView = TextView(getContext())
 }
 
-class EditTextViewBuilder(context: Context) : AbstractTextViewBuilder<EditText>(context) {
+class EditTextViewBuilder<LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractTextViewBuilder<EditText, LP>(context, lpp) {
     override fun createView() = EditText(getContext())
 }
 
-class ButtonViewBuilder(context: Context) : AbstractTextViewBuilder<Button>(context) {
+class ButtonViewBuilder<LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractTextViewBuilder<Button, LP>(context, lpp) {
     var onClickListener: View.OnClickListener? = null
 
     override fun createView() = Button(getContext())

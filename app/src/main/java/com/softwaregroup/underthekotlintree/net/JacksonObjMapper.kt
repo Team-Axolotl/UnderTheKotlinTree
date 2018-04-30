@@ -26,11 +26,11 @@ object JacksonObjMapper : ObjectMapper() {
 class WrappedJacksonConverterFactory(private val converterFactory: JacksonConverterFactory) : Converter.Factory() {
 
     override fun requestBodyConverter(type: Type?, parameterAnnotations: Array<out Annotation>?, methodAnnotations: Array<out Annotation>?, retrofit: Retrofit?): Converter<*, RequestBody>? {
-        return converterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit)
+        return converterFactory.requestBodyConverter(type!!, parameterAnnotations!!, methodAnnotations!!, retrofit!!)
     }
 
     override fun stringConverter(type: Type?, annotations: Array<out Annotation>?, retrofit: Retrofit?): Converter<*, String>? {
-        return converterFactory.stringConverter(type, annotations, retrofit)
+        return converterFactory.stringConverter(type!!, annotations!!, retrofit!!)
     }
 
     /** Get a usable instance of a retrofit2 [Converter] tailored for our custom response wrapper*/

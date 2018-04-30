@@ -1,9 +1,9 @@
 package com.softwaregroup.underthekotlintree.ui
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
-import android.view.ViewGroup
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.util.toast
 import softwaregroup.com.ease_ui.linearLayout
@@ -28,34 +28,61 @@ class LoginActivity : BaseActivity(), OnClickListener {
         //todo - the commented block is TEMPORARY. For EaseUI testing purposes!
         setContentView(
                 linearLayout(this) {
+                    layout {
+                        width
+                    }
+                    textView {
+
+                        layout {
+                            layout {
+
+                            }
+                        }
+                    }
                     textView {
                         text = "testText1"
                     }
                     textView {
                         text = "testText2"
+                        id = 100
                         textSizeSp = 26F
-                        widthDp = 100
-                        heightDp = 200
                     }
                     textView {
                         text = "testText3"
-                        heightDp = 64
                     }
                     textView {
                         text = "testText4"
-                        widthDp = 10
                     }
                     textView {
                         hint = "testHint5"
                     }
                     textView {
                         hint = "testHint6"
-                        widthDp = ViewGroup.LayoutParams.MATCH_PARENT
+
+                        layout {  }
+                        layout {
+                            width = 200
+                            height = 430
+                            gravity = Gravity.CENTER
+                            text = "#"
+                        }
+
+                        layout {
+                            layout {
+                                layout {
+
+                                }
+                            }
+                        }
                     }
                     button {
                         text = "?"
                         onClickListener = OnClickListener {
                             toast("WORKEDED")
+                        }
+                        layout {
+                            width = 200
+                            topMargin = 100
                         }
                     }
                     editText {
