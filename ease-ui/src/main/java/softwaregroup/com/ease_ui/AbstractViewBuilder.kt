@@ -11,7 +11,6 @@ import java.lang.ref.WeakReference
 @DslMarker
 annotation class ViewDsl
 
-
 @ViewDsl
 abstract class AbstractViewBuilder<Y : View, LP : VGLoutParam>(context: Context, lpp: LPP<LP>) {
 
@@ -22,7 +21,6 @@ abstract class AbstractViewBuilder<Y : View, LP : VGLoutParam>(context: Context,
     var id: Int = -1
     open var background: Drawable? = null
 
-    @ViewDsl
     open fun layout(params: LP.() -> Unit) {
         layoutParams.apply(params)
     }
@@ -50,8 +48,6 @@ interface LayoutParamsProvider<P : ViewGroup.LayoutParams> {
 }
 
 typealias VGLoutParam = ViewGroup.LayoutParams
-
-@ViewDsl
 fun linearLayout(context: Context, attrs: LinerLayoutBuilder<ViewGroup.LayoutParams>.() -> Unit) = LinerLayoutBuilder(context, llp).apply(attrs).build()
 
 private val llp = object : LayoutParamsProvider<ViewGroup.LayoutParams> {

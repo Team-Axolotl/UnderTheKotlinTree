@@ -31,13 +31,8 @@ class LoginActivity : BaseActivity(), OnClickListener {
                     layout {
                         width
                     }
+                    editText {}
                     textView {
-
-                        layout {
-                            layout {
-
-                            }
-                        }
                     }
                     textView {
                         text = "testText1"

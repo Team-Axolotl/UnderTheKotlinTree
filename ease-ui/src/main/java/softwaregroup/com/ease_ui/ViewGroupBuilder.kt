@@ -11,24 +11,16 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 
-@ViewDsl
 abstract class ViewGroupBuilder<Y : ViewGroup, CLP : LayoutParams, LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractViewBuilder<Y, LP>(context, lpp) {
 
     abstract val childLayoutParamsProvider: LayoutParamsProvider<CLP>
 
-    private val children: ArrayList<View> = ArrayList()
+    protected val children: ArrayList<View> = ArrayList()
 
-    @ViewDsl
     fun textView(attrs: TextViewBuilder<CLP>.() -> Unit): TextView {
         return TextViewBuilder(getContext(), childLayoutParamsProvider).apply(attrs).build().apply { children.add(this) }
     }
 
-    @ViewDsl
-    fun editText(attrs: EditTextViewBuilder<CLP>.() -> Unit): EditText {
-        return EditTextViewBuilder(getContext(), childLayoutParamsProvider).apply(attrs).build().apply { children.add(this) }
-    }
-
-    @ViewDsl
     fun button(attrs: ButtonViewBuilder<CLP>.() -> Unit): Button {
         return ButtonViewBuilder(getContext(), childLayoutParamsProvider).apply(attrs).build().apply { children.add(this) }
     }
@@ -56,6 +48,10 @@ class LinerLayoutBuilder<LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : Vie
     }
 
     val orientation: Orientation = Orientation.VERTICAL
+
+    fun editText(attrs: EditTextViewBuilder<LinearLayout.LayoutParams>.() -> Unit): EditText {
+        return EditTextViewBuilder(getContext(), childLayoutParamsProvider).apply(attrs).build().apply { children.add(this) }
+    }
 
     override fun setViewProperties(view: LinearLayout) {
         super.setViewProperties(view)
