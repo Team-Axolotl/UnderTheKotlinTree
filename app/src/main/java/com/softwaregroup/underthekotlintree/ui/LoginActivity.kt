@@ -1,12 +1,18 @@
 package com.softwaregroup.underthekotlintree.ui
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.RelativeLayout.ALIGN_PARENT_RIGHT
 import com.softwaregroup.underthekotlintree.R
 import com.softwaregroup.underthekotlintree.util.toast
+import softwaregroup.com.ease_ui.heightDp
 import softwaregroup.com.ease_ui.linearLayout
+import softwaregroup.com.ease_ui.widthDp
 
 /**
  * First Activity that the User sees when opening the app.
@@ -25,11 +31,11 @@ class LoginActivity : BaseActivity(), OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        //todo - the commented block is TEMPORARY. For EaseUI testing purposes!
+        //todo - this block is TEMPORARY. For EaseUI testing purposes!
         setContentView(
                 linearLayout(this) {
                     layout {
-                        width
+
                     }
                     editText {}
                     textView {
@@ -47,27 +53,20 @@ class LoginActivity : BaseActivity(), OnClickListener {
                     }
                     textView {
                         text = "testText4"
+                        layout {
+                            width = MATCH_PARENT
+                        }
                     }
                     textView {
                         hint = "testHint5"
                     }
                     textView {
                         hint = "testHint6"
-
-                        layout {  }
                         layout {
                             width = 200
                             height = 430
                             gravity = Gravity.CENTER
                             text = "#"
-                        }
-
-                        layout {
-                            layout {
-                                layout {
-
-                                }
-                            }
                         }
                     }
                     button {
@@ -82,6 +81,23 @@ class LoginActivity : BaseActivity(), OnClickListener {
                     }
                     editText {
                         hint = "OOOoooh?!"
+                    }
+                    relativeLayout {
+                        background = ColorDrawable(Color.GREEN)
+
+                        layout {
+                            widthDp = 750f
+                            heightDp = 333f
+                        }
+
+                        editText {
+                            background = ColorDrawable(Color.DKGRAY)
+                            text = "idfgonodugoetgouehgoeogieoughoerrgigonodugoetgouehgoeogieoughoerrgidfgonodugoetgouehgoeogieou"
+                            layout {
+                                widthDp = 250f
+                                addRule(ALIGN_PARENT_RIGHT)
+                            }
+                        }
                     }
                 }
         )
