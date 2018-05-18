@@ -27,7 +27,7 @@ abstract class AbstractTextViewBuilder<T : TextView, LP : VGLoutParam>(context: 
 
 @ViewDsl
 open class TextViewBuilder<LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractTextViewBuilder<TextView, LP>(context, lpp) {
-    override fun createView(): TextView = TextView(getContext())
+    override fun createView() = TextView(getContext())
 }
 
 class EditTextViewBuilder<LP : VGLoutParam>(context: Context, lpp: LPP<LP>) : AbstractTextViewBuilder<EditText, LP>(context, lpp) {
